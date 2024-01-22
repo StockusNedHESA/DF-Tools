@@ -1,3 +1,14 @@
+/**
+ * Custom component for rendering arrays as tables
+ * Current module with JSON Forms doesn't support resizing columns, drag and drop, and other features
+ * This component is a workaround for that
+ * @packageDocumentation
+ * @module React
+ * @preferred
+ * @see {@link https://jsonforms.io/docs/custom-renderer}
+ * @see {@link https://mui.com/components/data-grid/}
+ */
+
 import { uiTypeIs, rankWith, ControlProps } from "@jsonforms/core";
 import { withJsonFormsControlProps } from "@jsonforms/react";
 import {
@@ -41,6 +52,7 @@ export default {
         (props: PropsWithChildren<ControlProps>) => {
             const { data, handleChange, path, label } = props;
 
+            // State for rows, initially set to data mapped to an array of objects with id and row properties
             const [rows, setRows] = useState<GridRowsProp>(
                 (data || []).map((row: string, index: number) => ({
                     id: index,
@@ -48,6 +60,7 @@ export default {
                 }))
             );
 
+            // Effect hook to update rows state when data changes
             useEffect(() => {
                 setRows(
                     (data || []).map((row: string, index: number) => ({
@@ -101,18 +114,29 @@ export default {
                 },
             ];
 
+            /**
+             * DraggableRow is a function component that provides a draggable row in a grid.
+             * It uses the useDrag hook from the react-use-gesture library to handle drag events.
+             *
+             * @param {GridRowProps} props - The properties for the component.
+             * @returns {JSX.Element} The DraggableRow component.
+             */
             const DraggableRow = (props: GridRowProps) => {
+                // Use the useDrag hook from the react-use-gesture library
                 const bind = useDrag(({ values, last, target }) => {
                     const rowBeingDragged = (target as Element).closest(
                         `[data-field="drag"]`
                     )?.parentElement as HTMLElement;
 
+                    // Get the x and y coordinates of the drag and Get the element at the current drag coordinates
                     const [x, y] = values;
                     const immediateElem = document.elementFromPoint(x, y);
 
+                    // Get the row being dragged over
                     const rowDraggedOver = immediateElem?.closest(
                         `[data-field="drag"]`
                     )?.parentElement as HTMLElement;
+
                     if (!rowDraggedOver || !rowBeingDragged) return;
 
                     if (!last) return;
@@ -125,21 +149,31 @@ export default {
                         rowBeingDragged.dataset.rowindex
                     );
 
+                    // If the source and target rows are the same, return
                     if (targetRowIndex === sourceRowIndex) return;
 
+                    // Swap the source and target rows
                     const temp = pRows[targetRowIndex];
                     pRows[targetRowIndex] = pRows[sourceRowIndex];
                     pRows[sourceRowIndex] = temp;
 
+                    // Update the data in the JsonForms state
                     handleChange(
                         path,
                         pRows.map((row) => row.row)
                     );
                 });
 
+                // Return the GridRow component with the drag bindings and the original props
                 return <GridRow {...bind()} {...props} />;
             };
 
+            /**
+             * EditToolbar is a function component that provides a toolbar for editing arrays.
+             * It includes a button for adding new items to the array and a message about how to save changes.
+             *
+             * @returns {JSX.Element} The EditToolbar component.
+             */
             function EditToolbar() {
                 const handleClick = () => {
                     const id = rows.length;
@@ -186,6 +220,13 @@ export default {
                 );
             }
 
+            /**
+             * EditTextarea is a function component that provides a textarea for editing cell values in a grid.
+             * It uses the Material UI Popper for positioning the textarea.
+             *
+             * @param {GridRenderEditCellParams<any, string>} props - The properties for the component.
+             * @returns {JSX.Element} The EditTextarea component.
+             */
             function EditTextarea(
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 props: GridRenderEditCellParams<any, string>
@@ -197,14 +238,17 @@ export default {
                     useState<HTMLInputElement | null>(null);
                 const apiRef = useGridApiContext();
 
+                // Effect hook to focus the input when it has focus
                 useLayoutEffect(() => {
                     if (hasFocus && inputRef) inputRef.focus();
                 }, [hasFocus, inputRef]);
 
+                // Callback to handle the ref
                 const handleRef = useCallback((el: HTMLElement | null) => {
                     setAnchorEl(el);
                 }, []);
 
+                // Callback to handle change in the textarea
                 const handleChange = useCallback<
                     NonNullable<InputBaseProps["onChange"]>
                 >(
@@ -267,7 +311,14 @@ export default {
                 );
             }
 
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            /**
+             * processRowUpdate is a function that updates a row in the rows array.
+             * It finds the index of the row to be updated, creates a copy of the rows array,
+             * replaces the row at the found index with the updated row, and then updates the JsonForms state.
+             *
+             * @param {any} updatedRow - The row that has been updated.
+             * @returns {any} The updated row.
+             */ // eslint-disable-next-line @typescript-eslint/no-explicit-any
             const processRowUpdate = (updatedRow: any) => {
                 const rowIndex = rows.findIndex(
                     (row) => row.id === updatedRow.id
@@ -287,6 +338,13 @@ export default {
             const [cellModesModel, setCellModesModel] =
                 useState<GridCellModesModel>({});
 
+            /**
+             * handleCellClick is a function that handles the click event on a cell in the grid.
+             * If the cell is editable, it sets the mode of the cell to Edit and the mode of all other cells to View.
+             *
+             * @param {GridCellParams} params - The parameters for the cell.
+             * @param {React.MouseEvent} event - The mouse event.
+             */
             const handleCellClick = useCallback(
                 (params: GridCellParams, event: React.MouseEvent) => {
                     if (!params.isEditable) return;

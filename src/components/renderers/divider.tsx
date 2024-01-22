@@ -1,3 +1,11 @@
+/**
+ * Creates a Simple devider
+ * @packageDocumentation
+ * @module React
+ * @preferred
+ * @see {@link https://jsonforms.io/docs/custom-renderer}
+ */
+
 import { uiTypeIs, rankWith } from "@jsonforms/core";
 import { withJsonFormsControlProps } from "@jsonforms/react";
 import React from "react";

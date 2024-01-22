@@ -1,3 +1,14 @@
+/**
+ * SpecificationPicker contains the logic for selecting a specification file
+ * and displaying the files in a tree view.
+ * 
+ * @see {@link https://mui.com/components/autocomplete/}
+ * @see {@link https://mui.com/components/text-fields/}
+ * @see {@link https://mui.com/components/grid/}
+ * @see {@link https://mui.com/components/buttons/}
+ * @see {@link https://mui.com/components/tree-view/}
+ */
+
 import { useState, useMemo, forwardRef, useImperativeHandle } from "react";
 import {
     Autocomplete,
@@ -24,32 +35,55 @@ export const SpecificationPicker = forwardRef((props: Props, ref) => {
     const [files, setFiles] = useState({} as FileOption);
     const fileHandle = useState(new FileHandler())[0];
 
+    /**
+     * useImperativeHandle is a React hook that customizes the instance value that is exposed to parent components when using ref.
+     * In this case, it exposes an asynchronous function saveFile that saves a rule to a file.
+     *
+     * @param {IRule} rule - The rule to be saved.
+     * @returns {Promise<boolean>} A promise that resolves to a boolean indicating whether the save was successful.
+     */
     useImperativeHandle(ref, () => ({
         async saveFile(rule: IRule): Promise<boolean> {
-            const existing = fileHandle.fileSystem  === undefined?
-                undefined :
-                Object.values(fileHandle.fileSystem!.entries).find(
-                (entry) => entry.path.includes(rule.Id as string)
-            );
+            // Check if the file system is defined and find an existing entry that includes the rule's Id in its path
+            const existing =
+                fileHandle.fileSystem === undefined
+                    ? undefined
+                    : Object.values(fileHandle.fileSystem!.entries).find(
+                          (entry) => entry.path.includes(rule.Id as string)
+                      );
 
+            // If an existing entry was found, write the rule to the file at the existing path
             if (existing) {
                 const success = await fileHandle.writeFile(existing.path, rule);
                 if (success instanceof Error) {
-                    snackbar(`Error occured while saving Specifcation:\n${success.message}`);
-                    return false
+                    snackbar(
+                        `Error occured while saving Specifcation:\n${success.message}`
+                    );
+                    return false;
                 }
             } else {
                 const success = await fileHandle.writeFileAs(rule);
                 if (success instanceof Error) {
-                    snackbar(`Error occured while saving Specifcation:\n${success.message}`);
-                    return false
+                    snackbar(
+                        `Error occured while saving Specifcation:\n${success.message}`
+                    );
+                    return false;
                 }
             }
 
-            return true
+            // If no error occurred, return true (success)
+            return true;
         },
     }));
 
+    /**
+     * getFiles is an asynchronous function that fetches files from a directory.
+     * It uses the fileHandle to get the files, sets the directory path, and sets the files state.
+     * The files state is an object where the keys are the group names and the values are arrays of file options.
+     * Each file option includes an id, a group, and a label.
+     *
+     * @returns {Promise<void>} A promise that resolves when the files have been fetched and the state has been set.
+     */
     async function getFiles() {
         const [error, dir] = await fileHandle.getFiles();
         if (error)
@@ -77,6 +111,13 @@ export const SpecificationPicker = forwardRef((props: Props, ref) => {
         );
     }
 
+    /**
+     * selectFile is an asynchronous function that reads a rule from a file and updates the rule.
+     * It resets the tolerance, updates the rule, and updates all tolerance.
+     *
+     * @param {string} path - The path of the file to read.
+     * @returns {Promise<void>} A promise that resolves when the rule has been read and updated.
+     */
     async function selectFile(path: string) {
         const [error, rule] = await fileHandle.readFile(path);
         if (error)
@@ -98,6 +139,13 @@ export const SpecificationPicker = forwardRef((props: Props, ref) => {
         [files]
     );
 
+    /**
+     * This is a JSX component that renders a grid of files.
+     * If there are files, it renders a grid container with an autocomplete search bar and a tree view of the files.
+     * The autocomplete search bar allows the user to search for a rule by label.
+     * The tree view displays the files grouped by their group names.
+     * Each file is a tree item that, when clicked, calls the selectFile function with the file's id.
+     */
     if (Object.keys(files).length) {
         return (
             <Grid

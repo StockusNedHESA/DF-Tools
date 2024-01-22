@@ -1,3 +1,10 @@
+/**
+ * Creates a custom renderer for the tolerance toggle
+ *
+ * @see {@link https://jsonforms.io/docs/custom-renderer}
+ * @see {@link https://mui.com/components/checkboxes/}
+ */
+
 import { uiTypeIs, rankWith, ControlProps } from "@jsonforms/core";
 import { withJsonFormsControlProps } from "@jsonforms/react";
 import { Checkbox, FormControlLabel } from "@mui/material";

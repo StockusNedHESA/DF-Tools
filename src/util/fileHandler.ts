@@ -1,6 +1,10 @@
 import { XMLBuilder } from "fast-xml-parser";
 import { parseText, sortJSON } from "./functions";
 
+/**
+ * FileHandler is a class that handles file operations.
+ * It has methods to get files, read files, and write files.
+ */
 class FileHandler {
     fileSystem: FileSystemDirectory | undefined;
     private Builder: XMLBuilder;
@@ -13,6 +17,12 @@ class FileHandler {
         });
     }
 
+    /**
+     * handlePermissions is a private method that handles permissions for a directory handle.
+     * It queries for readwrite permission and if not granted, it requests for it.
+     *
+     * @param {FileSystemDirectoryHandle} handle - The directory handle.
+     */
     private async handlePermissions(handle: FileSystemDirectoryHandle) {
         const permission = await handle.queryPermission({ mode: "readwrite" });
 
@@ -20,6 +30,12 @@ class FileHandler {
             await handle.requestPermission({ mode: "readwrite" });
     }
 
+    /**
+     * getFiles is a method that gets files from a directory.
+     * It shows a directory picker, handles permissions, and sets the file system.
+     *
+     * @returns {Promise<[Error, null] | [null, FileSystemDirectory]>} A promise that resolves to an error or a directory.
+     */
     async getFiles(): Promise<[Error, null] | [null, FileSystemDirectory]> {
         try {
             const fileSystem = await window.showDirectoryPicker();
@@ -49,12 +65,25 @@ class FileHandler {
         }
     }
 
+    /**
+     * findEntry is a private method that finds an entry in the file system that matches a filename.
+     *
+     * @param {string} filename - The filename to find.
+     * @returns {FileSystemDirectory} The found entry.
+     */
     private findEntry(filename: string): FileSystemDirectory {
         return [...Object.values(this.fileSystem!.entries)].find(
             (entry) => entry.path === filename
         )!;
     }
 
+    /**
+     * readFile is a method that reads a file from the file system.
+     * It finds the file handle, gets the file, reads the text, and parses the text.
+     *
+     * @param {string} filePath - The path of the file to read.
+     * @returns {Promise<[Error, null] | [null, IRule]>} A promise that resolves to an error or a rule.
+     */
     public async readFile(
         filePath: string
     ): Promise<[Error, null] | [null, IRule]> {
@@ -63,7 +92,7 @@ class FileHandler {
                 return [new Error("No file system"), null];
 
             const handle = this.findEntry(filePath).handle;
-            const file = await handle.getFile(filePath) as File;
+            const file = (await handle.getFile(filePath)) as File;
             const content = await file.text();
 
             return parseText(content);
@@ -72,6 +101,14 @@ class FileHandler {
         }
     }
 
+    /**
+     * writeFile is a method that writes a rule to a file in the file system.
+     * It finds the file handle, creates a writable stream, builds the XML, and writes the XML to the file.
+     *
+     * @param {string} filePath - The path of the file to write.
+     * @param {IRule} content - The rule to write.
+     * @returns {Promise<Error | undefined>} A promise that resolves to an error or undefined.
+     */
     public async writeFile(
         filePath: string,
         content: IRule
@@ -80,7 +117,8 @@ class FileHandler {
             if (this.fileSystem === undefined)
                 return new Error("No file system");
 
-            const handle = this.findEntry(filePath).handle as FileSystemFileHandle;
+            const handle = this.findEntry(filePath)
+                .handle as FileSystemFileHandle;
             const writable = await handle.createWritable();
 
             const xml = this.Builder.build({
@@ -99,11 +137,18 @@ class FileHandler {
         }
     }
 
+    /**
+     * writeFileAs is a method that writes a rule to a new file.
+     * It shows a save file picker, creates a writable stream, builds the XML, and writes the XML to the file.
+     *
+     * @param {IRule} content - The rule to write.
+     * @returns {Promise<Error | undefined>} A promise that resolves to an error or undefined.
+     */
     public async writeFileAs(content: IRule) {
         try {
-            console.log(content)
+            console.log(content);
             const handle = await window.showSaveFilePicker({
-                suggestedName: `${content.Id}.xml`
+                suggestedName: `${content.Id}.xml`,
             });
 
             const writable = await handle.createWritable();

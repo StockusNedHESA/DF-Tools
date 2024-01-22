@@ -1,3 +1,12 @@
+/**
+ * NavBar component is a component that displays the navigation bar at the top of the page.
+ * It is a responsive component that displays a drawer on mobile devices.
+ *
+ * @see {@link https://mui.com/components/drawers/}
+ * @see {@link https://mui.com/components/app-bar/}
+ * @see {@link https://mui.com/components/toolbar/}
+ */
+
 import * as React from "react";
 import MenuIcon from "@mui/icons-material/Menu";
 import {
