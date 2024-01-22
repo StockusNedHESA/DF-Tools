@@ -22,6 +22,7 @@ export default defineConfig({
             },
 
             includeAssets: ["**/*.{png}"],
+            base: "/DF-Tools/",
             manifest: {
                 name: "DF Tools",
                 short_name: "DFTools",
