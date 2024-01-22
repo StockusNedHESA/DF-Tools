@@ -1,0 +1,322 @@
+{
+    "type": "object",
+    "properties": {
+        "Id": {
+            "type": "string"
+        },
+        "ValidFrom": {
+            "type": "string",
+            "default": "23056"
+        },
+        "ValidTo": {
+            "type": "string"
+        },
+        "PlainEnglishDescription": {
+            "type": "string"
+        },
+        "Status": {
+            "type": "string",
+            "enum": [
+                "Deleted",
+                "Amended",
+                "Added",
+                "Carried Forward"
+            ]
+        },
+        "WorkflowStatus": {
+            "type": "string",
+            "enum": [
+                "Work in Progress",
+                "Ready for PR",
+                "PR Failed",
+                "Ready for SC",
+                "SC Failed",
+                "Ready for Dev",
+                "On Hold"
+            ]
+        },
+        "LastUpdatedBy": {
+            "type": "string"
+        },
+        "PeerReviewedBy": {
+            "type": "string"
+        },
+        "IntolerableFlag": {
+            "type": "string",
+            "enum": [
+                "Yes",
+                "No"
+            ]
+        },
+        "AppliesToDFENI": {
+            "type": "boolean"
+        },
+        "DFENITriggerRecordCount": {
+            "type": "string"
+        },
+        "DFENITriggerCondition": {
+            "type": "string",
+            "enum": [
+                "AND",
+                "OR"
+            ]
+        },
+        "DFENITriggerPercentage": {
+            "type": "string"
+        },
+        "DFENIProviderRecordCount": {
+            "type": "string"
+        },
+        "DFENIProviderPercentage": {
+            "type": "string"
+        },
+        "DFENIHESARecordCount": {
+            "type": "string"
+        },
+        "DFENIHESAPercentage": {
+            "type": "string"
+        },
+        "DFENISCRecordCount": {
+            "type": "string"
+        },
+        "DFENISCPercentage": {
+            "type": "string"
+        },
+        "AppliesToHEFCW": {
+            "type": "boolean"
+        },
+        "HEFCWTriggerRecordCount": {
+            "type": "string"
+        },
+        "HEFCWTriggerCondition": {
+            "type": "string",
+            "enum": [
+                "AND",
+                "OR"
+            ]
+        },
+        "HEFCWTriggerPercentage": {
+            "type": "string"
+        },
+        "HEFCWProviderRecordCount": {
+            "type": "string"
+        },
+        "HEFCWProviderPercentage": {
+            "type": "string"
+        },
+        "HEFCWHESARecordCount": {
+            "type": "string"
+        },
+        "HEFCWHESAPercentage": {
+            "type": "string"
+        },
+        "HEFCWSCRecordCount": {
+            "type": "string"
+        },
+        "HEFCWSCPercentage": {
+            "type": "string"
+        },
+        "AppliesToOFS": {
+            "type": "boolean"
+        },
+        "OFSTriggerRecordCount": {
+            "type": "string"
+        },
+        "OFSTriggerCondition": {
+            "type": "string",
+            "enum": [
+                "AND",
+                "OR"
+            ]
+        },
+        "OFSTriggerPercentage": {
+            "type": "string"
+        },
+        "OFSProviderRecordCount": {
+            "type": "string"
+        },
+        "OFSProviderPercentage": {
+            "type": "string"
+        },
+        "OFSHESARecordCount": {
+            "type": "string"
+        },
+        "OFSHESAPercentage": {
+            "type": "string"
+        },
+        "OFSSCRecordCount": {
+            "type": "string"
+        },
+        "OFSSCPercentage": {
+            "type": "string"
+        },
+        "AppliesToSFC": {
+            "type": "boolean"
+        },
+        "SFCTriggerRecordCount": {
+            "type": "string"
+        },
+        "SFCTriggerCondition": {
+            "type": "string",
+            "enum": [
+                "AND",
+                "OR"
+            ]
+        },
+        "SFCTriggerPercentage": {
+            "type": "string"
+        },
+        "SFCProviderRecordCount": {
+            "type": "string"
+        },
+        "SFCProviderPercentage": {
+            "type": "string"
+        },
+        "SFCHESARecordCount": {
+            "type": "string"
+        },
+        "SFCHESAPercentage": {
+            "type": "string"
+        },
+        "SFCSCRecordCount": {
+            "type": "string"
+        },
+        "SFCSCPercentage": {
+            "type": "string"
+        },
+        "AppliesToDFEEYSG": {
+            "type": "boolean"
+        },
+        "DFEEYSGTriggerRecordCount": {
+            "type": "string"
+        },
+        "DFEEYSGTriggerCondition": {
+            "type": "string",
+            "enum": [
+                "AND",
+                "OR"
+            ]
+        },
+        "DFEEYSGTriggerPercentage": {
+            "type": "string"
+        },
+        "DFEEYSGProviderRecordCount": {
+            "type": "string"
+        },
+        "DFEEYSGProviderPercentage": {
+            "type": "string"
+        },
+        "DFEEYSGHESARecordCount": {
+            "type": "string"
+        },
+        "DFEEYSGHESAPercentage": {
+            "type": "string"
+        },
+        "DFEEYSGSCRecordCount": {
+            "type": "string"
+        },
+        "DFEEYSGSCPercentage": {
+            "type": "string"
+        },
+        "AppliesToWG": {
+            "type": "boolean"
+        },
+        "WGTriggerRecordCount": {
+            "type": "string"
+        },
+        "WGTriggerCondition": {
+            "type": "string",
+            "enum": [
+                "AND",
+                "OR"
+            ]
+        },
+        "WGTriggerPercentage": {
+            "type": "string"
+        },
+        "WGProviderRecordCount": {
+            "type": "string"
+        },
+        "WGProviderPercentage": {
+            "type": "string"
+        },
+        "WGHESARecordCount": {
+            "type": "string"
+        },
+        "WGHESAPercentage": {
+            "type": "string"
+        },
+        "WGSCRecordCount": {
+            "type": "string"
+        },
+        "WGSCPercentage": {
+            "type": "string"
+        },
+        "TechnicalPopulation": {
+            "type": "string"
+        },
+        "TechnicalValidity": {
+            "type": "string"
+        },
+        "Validity": {
+            "type": "string",
+            "enum": [
+                "Valid",
+                "Invalid"
+            ]
+        },
+        "DMFlags": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            }
+        },
+        "Category": {
+            "type": "string",
+            "enum": [
+                "Coverage",
+                "Guidance",
+                "Data integrity",
+                "Continuity",
+                "Credibility report",
+                "Updateability",
+                "Foundational (TBC)",
+                "Valid values"
+            ],
+            "default": "Coverage"
+        },
+        "Group": {
+            "type": "string"
+        },
+        "FieldsToDisplay": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            }
+        },
+        "DeveloperNotes": {
+            "type": "string"
+        },
+        "ReasonRequired": {
+            "type": "string"
+        },
+        "AuthorNotes": {
+            "type": "string"
+        },
+        "ReasonForChange": {
+            "type": "string"
+        },
+        "HistoryOfChange": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            }
+        },
+        "ReviewDate": {
+            "type": "string"
+        },
+        "LegacyRuleId": {
+            "type": "string"
+        }
+    }
+}
