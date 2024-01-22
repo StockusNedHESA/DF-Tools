@@ -9,7 +9,6 @@ import {
 import { ExpandMore, ChevronRight, HorizontalRule } from "@mui/icons-material";
 import { TreeView } from "@mui/x-tree-view/TreeView";
 import { TreeItem } from "@mui/x-tree-view/TreeItem";
-import DragNDrop from "./DragNDrop";
 import { resetTolerance, updateAllTolerance } from "../util/functions";
 
 import FileHandler from "../util/fileHandler";
@@ -167,7 +166,6 @@ export const SpecificationPicker = forwardRef((props: Props, ref) => {
 
     return (
         <>
-            <DragNDrop />
             <Grid
                 container
                 direction="column"

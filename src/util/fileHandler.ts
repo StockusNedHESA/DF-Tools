@@ -1,23 +1,13 @@
-import { XMLParser, XMLValidator, XMLBuilder } from "fast-xml-parser";
-import { sortJSON } from "./functions";
+import { XMLBuilder } from "fast-xml-parser";
+import { parseText, sortJSON } from "./functions";
 
 class FileHandler {
     fileSystem: FileSystemDirectory | undefined;
-    private Parser: XMLParser;
     private Builder: XMLBuilder;
 
     constructor() {
         this.fileSystem = undefined;
 
-        this.Parser = new XMLParser({
-            ignoreAttributes: false,
-            parseAttributeValue: true,
-            numberParseOptions: {
-                leadingZeros: false,
-                hex: false,
-                skipLike: /(?:)/,
-            },
-        });
         this.Builder = new XMLBuilder({
             format: true,
         });
@@ -76,18 +66,7 @@ class FileHandler {
             const file = await handle.getFile(filePath) as File;
             const content = await file.text();
 
-            if (!XMLValidator.validate(content))
-                return [new Error("Invalid XML"), null];
-
-            const rule = this.Parser.parse(content).Rule.Specification;
-
-            for (const key of ["DMFlags", "HistoryOfChange", "FieldsToDisplay"])
-                if (rule[key])
-                    rule[key] = Array.isArray(rule[key])
-                        ? rule[key]
-                        : [rule[key]];
-
-            return [null, rule];
+            return parseText(content);
         } catch (error) {
             return [error as Error, null];
         }

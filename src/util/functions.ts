@@ -63,10 +63,35 @@ function sortJSON(data: IRule) {
     return sorted;
 }
 
+import { XMLParser, XMLValidator } from "fast-xml-parser";
+
+const Parser = new XMLParser({
+    ignoreAttributes: false,
+    parseAttributeValue: true,
+    numberParseOptions: {
+        leadingZeros: false,
+        hex: false,
+        skipLike: /(?:)/,
+    },
+});
+
+function parseText(text: string): [Error, null] | [null, IRule] {
+    if (!XMLValidator.validate(text)) return [new Error("Invalid XML"), null];
+
+    const rule = Parser.parse(text).Rule.Specification;
+
+    for (const key of ["DMFlags", "HistoryOfChange", "FieldsToDisplay"])
+        if (rule[key])
+            rule[key] = Array.isArray(rule[key]) ? rule[key] : [rule[key]];
+
+    return [null, rule];
+}
+
 export {
     resetTolerance,
     updateTolerance,
     updateAllTolerance,
     keyCondition,
     sortJSON,
+    parseText,
 };

@@ -1,7 +1,13 @@
 import React, { useState } from "react";
 import { Box, Typography } from "@mui/material";
+import { parseText } from "../util/functions";
 
-const DragNDrop = () => {
+interface Props {
+    update: (output: IRule) => void;
+    snackbar: (message: string) => void;
+}
+
+export const DragNDrop = ({update,snackbar}:Props) => {
     const [dragging, setDragging] = useState(false);
 
     const handleDragEnter = (e: React.DragEvent<HTMLDivElement>) => {
@@ -18,12 +24,17 @@ const DragNDrop = () => {
         e.preventDefault();
     };
 
-    const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    const handleDrop = async (e: React.DragEvent<HTMLDivElement>) => {
         e.preventDefault();
         setDragging(false);
-        // Handle the dropped file here
+
         const file = e.dataTransfer.files[0];
-        console.log("Dropped file:", file);
+        const text = await file.text();
+        
+        const [error, rule] = parseText(text);
+        if (error) return snackbar(error.message);
+
+        update(rule);
     };
 
     window.addEventListener("dragenter", () => setDragging(true));
@@ -57,5 +68,3 @@ const DragNDrop = () => {
         </Box>
     );
 };
-
-export default DragNDrop;

@@ -21,6 +21,7 @@ import { keyCondition } from "../../util/functions";
 import schema from "./data/schema.json";
 import uischema from "./data/uischema.ts";
 import defaultdata from "./data/defaultdata.json";
+import {DragNDrop} from "../../components/DragNDrop.tsx";
 
 function App() {
     const [data, _setData] = useState(defaultdata as unknown as IRule);
@@ -97,6 +98,10 @@ function App() {
                 message={message}
                 autoHideDuration={5000}
                 onClose={() => setOpen(false)}
+            />
+            <DragNDrop
+                update={setData}
+                snackbar={snackbar}
             />
             <IconButton
                 onClick={handleButton}
