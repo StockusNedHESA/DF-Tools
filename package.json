@@ -1,7 +1,7 @@
 {
   "name": "df-tools",
-  "homepage": ".",
-  "private": true,
+  "homepage": "https://stockusnedhesa.github.io/DF-Tools/",
+  "private": false,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
@@ -31,6 +31,7 @@
     "react-router-dom": "^6.21.0"
   },
   "devDependencies": {
+    "@types/node": "^20.11.5",
     "@types/react": "^18.2.37",
     "@types/react-dom": "^18.2.15",
     "@types/wicg-file-system-access": "^2023.10.4",

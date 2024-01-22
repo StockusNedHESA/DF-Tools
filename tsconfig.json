@@ -23,7 +23,8 @@
         "types": [
             "vite-plugin-pwa/client",
             "@types/wicg-file-system-access",
-            "./src/types.d.ts"
+            "./src/types.d.ts",
+            "@types/node",
         ]
     },
     "include": ["src"],
