@@ -4,7 +4,7 @@ import { VitePWA } from "vite-plugin-pwa";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-    base:"/DF-Tools/",
+    base: "/DF-Tools/",
     plugins: [
         react(),
         VitePWA({
@@ -51,8 +51,8 @@ export default defineConfig({
                     },
                 ],
                 theme_color: "#2e2e2e",
-                scope: "/",
-                start_url: "/",
+                scope: "/DF-Tools/",
+                start_url: "/DF-Tools/",
                 display: "standalone",
             },
             workbox: {
