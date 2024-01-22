@@ -1,7 +1,7 @@
 import { RouteObject } from "react-router-dom";
 
 import RuleEditor from "../pages/RuleEditor";
-import SchemaConversion from "../pages/SchemaConversion";
+import SchemaConversion from "../pages/RuleReport";
 
 export const RouteList: RouteObject[] = [
     {
