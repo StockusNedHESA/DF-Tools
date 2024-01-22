@@ -1,5 +1,6 @@
 {
     "type": "object",
+    "required": [ "Id" ],
     "properties": {
         "Id": {
             "type": "string"
