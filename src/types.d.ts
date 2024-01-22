@@ -132,6 +132,7 @@ declare global {
     }
 
     interface PickerRef {
-            saveFile: (rule: IRule) => Promise<boolean>;
+        saveFile: (rule: IRule) => Promise<boolean>;
+        getFiles: () => void;
     }
 }

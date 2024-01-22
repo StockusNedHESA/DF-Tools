@@ -74,6 +74,7 @@ export const SpecificationPicker = forwardRef((props: Props, ref) => {
             // If no error occurred, return true (success)
             return true;
         },
+        getFiles: () => getFiles(),
     }));
 
     /**

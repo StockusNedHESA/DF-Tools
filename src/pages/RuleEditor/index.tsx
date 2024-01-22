@@ -12,7 +12,7 @@ import {
     Typography,
     Snackbar,
 } from "@mui/material";
-import { ArrowBack, ArrowForward } from "@mui/icons-material";
+import { ArrowBack, ArrowForward, Folder } from "@mui/icons-material";
 
 import { SpecificationPicker } from "../../components/SpecificationPicker";
 import renderer from "../../components/renderers";
@@ -21,7 +21,7 @@ import { keyCondition } from "../../util/functions";
 import schema from "./data/schema.json";
 import uischema from "./data/uischema.ts";
 import defaultdata from "./data/defaultdata.json";
-import {DragNDrop} from "../../components/DragNDrop.tsx";
+import { DragNDrop } from "../../components/DragNDrop.tsx";
 
 function App() {
     const [data, _setData] = useState(defaultdata as unknown as IRule);
@@ -64,7 +64,7 @@ function App() {
             ...data,
             Id: data.Id?.slice(0, -2) + newVersion,
         };
-        
+
         setData(newData);
     }
 
@@ -99,10 +99,7 @@ function App() {
                 autoHideDuration={5000}
                 onClose={() => setOpen(false)}
             />
-            <DragNDrop
-                update={setData}
-                snackbar={snackbar}
-            />
+            <DragNDrop update={setData} snackbar={snackbar} />
             <IconButton
                 onClick={handleButton}
                 style={{
@@ -117,12 +114,22 @@ function App() {
             <Grid container spacing={2}>
                 <Grid item xs={3} style={{ display: hide ? "none" : "" }}>
                     <Collapse orientation="horizontal" in={!collapse}>
-                        <Typography
-                            variant="h6"
-                            style={{ marginBottom: "15px" }}
+                        <Stack
+                            direction="row"
+                            justifyContent="space-between"
+                            style={{ marginBottom: "8px" }}
                         >
-                            Current Directory: {dir || "None"}
-                        </Typography>
+                            <IconButton
+                                disabled={!dir}
+                                onClick={() => pickerRef.current?.getFiles()}
+                                aria-label="Change Direcotry"
+                            >
+                                <Folder />
+                            </IconButton>
+                            <Typography variant="h6">
+                                Current Directory: {dir || "None"}
+                            </Typography>
+                        </Stack>
                         <Card sx={{ padding: "10px" }}>
                             <SpecificationPicker
                                 ref={pickerRef}
