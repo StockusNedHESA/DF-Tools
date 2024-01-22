@@ -28,7 +28,7 @@ registerSW({ immediate: true });
 ReactDOM.createRoot(document.getElementById("root")!).render(
     <React.StrictMode>
         <ThemeProvider theme={theme}>
-            <BrowserRouter basename={process.env.PUBLIC_URL}>
+            <BrowserRouter basename={"/DF-Tools/"}>
                 <NavBar />
                 <Routes>
                     {RouteList.map((route: RouteObject) => (
