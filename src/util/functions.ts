@@ -58,21 +58,22 @@ function resetTolerance() {
 /**
  * keyCondition is a function that checks if a key was pressed with a modifier.
  * It checks if the platform is Mac and uses the meta key as the modifier, otherwise it uses the ctrl key.
- *
+ * Undefined as unknown as Navigator is used to prevent the need for mocking.
+ * 
  * @param {KeyboardEvent} event - The keyboard event.
  * @param {string} key - The key to check.
  * @returns {boolean} Whether the key was pressed with the modifier.
  */
-function keyCondition(event: KeyboardEvent, key: string) {
+function keyCondition(event: KeyboardEvent, key: string, nav: Navigator = undefined as unknown as Navigator) {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-expect-error
-    return ((navigator.userAgentData.platform === "Mac"
+    return ((nav?.userAgentData?.platform === "Mac"
             ? event.metaKey
             : event.ctrlKey) && event.code === key
     );
 }
 
-import schema from "../pages/RuleEditor/data/schema.json";
+import Schema from "../pages/RuleEditor/data/schema.json";
 /**
  * sortJSON is a function that sorts a rule based on a schema.
  * It loops over the keys in the schema and sets the values in the sorted rule.
@@ -80,7 +81,7 @@ import schema from "../pages/RuleEditor/data/schema.json";
  * @param {IRule} data - The rule to sort.
  * @returns {IRule} The sorted rule.
  */
-function sortJSON(data: IRule) {
+function sortJSON(data: IRule, schema: typeof Schema = Schema) {
     const sorted: IRule = {};
 
     for (const key of Object.keys(schema.properties)) {
@@ -117,9 +118,11 @@ const Parser = new XMLParser({
  * @returns {[Error, null] | [null, IRule]} An error or the parsed rule.
  */
 function parseText(text: string): [Error, null] | [null, IRule] {
-    if (!XMLValidator.validate(text)) return [new Error("Invalid XML"), null];
+    const valid = XMLValidator.validate(text);
 
-    const rule = Parser.parse(text).Rule.Specification;
+    if (typeof valid !== 'boolean' && valid?.err) return [new Error("Invalid XML"), null];
+
+    const rule = Parser.parse(text)?.Rule?.Specification;
 
     for (const key of ["DMFlags", "HistoryOfChange", "FieldsToDisplay"])
         if (rule[key])
