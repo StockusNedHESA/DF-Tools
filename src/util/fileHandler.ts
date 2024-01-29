@@ -6,7 +6,7 @@ import { parseText, sortJSON } from "./functions";
  * It has methods to get files, read files, and write files.
  */
 class FileHandler {
-    fileSystem: FileSystemDirectory | undefined;
+    fileSystem: IFileSystemDirectory | undefined;
     private Builder: XMLBuilder;
 
     constructor() {
@@ -34,14 +34,14 @@ class FileHandler {
      * getFiles is a method that gets files from a directory.
      * It shows a directory picker, handles permissions, and sets the file system.
      *
-     * @returns {Promise<[Error, null] | [null, FileSystemDirectory]>} A promise that resolves to an error or a directory.
+     * @returns {Promise<[Error, null] | [null, IFileSystemDirectory]>} A promise that resolves to an error or a directory.
      */
-    async getFiles(): Promise<[Error, null] | [null, FileSystemDirectory]> {
+    async getFiles(): Promise<[Error, null] | [null, IFileSystemDirectory]> {
         try {
             const fileSystem = await window.showDirectoryPicker();
             await this.handlePermissions(fileSystem);
 
-            const dir: FileSystemDirectory = {
+            const dir: IFileSystemDirectory = {
                 path: fileSystem.name,
                 handle: fileSystem as FileSystemDirectoryHandle,
                 entries: {},
@@ -69,9 +69,9 @@ class FileHandler {
      * findEntry is a private method that finds an entry in the file system that matches a filename.
      *
      * @param {string} filename - The filename to find.
-     * @returns {FileSystemDirectory} The found entry.
+     * @returns {IFileSystemDirectory} The found entry.
      */
-    private findEntry(filename: string): FileSystemDirectory {
+    private findEntry(filename: string): IFileSystemDirectory {
         return [...Object.values(this.fileSystem!.entries)].find(
             (entry) => entry.path === filename
         )!;

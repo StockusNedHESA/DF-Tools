@@ -107,31 +107,31 @@ declare global {
         [k: string]: unknown;
     }
 
-    interface FileSystemDirectory {
+    interface IFileSystemDirectory {
         path: string;
         handle: FileSystemDirectoryHandle | FileSystemFileHandle;
         parentHandle?: FileSystemDirectoryHandle;
-        entries: Record<string, FileSystemDirectory>;
+        entries: Record<string, IFileSystemDirectory>;
     }
 
-    interface FileOption {
-        [key: string]: FileOptionContent[];
+    interface IFileOption {
+        [key: string]: IFileOptionContent[];
     }
 
-    interface FileOptionContent {
+    interface IFileOptionContent {
         id: string;
         group: string;
         label: string;
     }
 
-    interface EditToolbarProps {
+    interface IEditToolbarProps {
         setRows: (newRows: (oldRows: GridRowsProp) => GridRowsProp) => void;
         setRowModesModel: (
             newModel: (oldModel: GridRowModesModel) => GridRowModesModel
         ) => void;
     }
 
-    interface PickerRef {
+    interface IPickerRef {
         saveFile: (rule: IRule) => Promise<boolean>;
         getFiles: () => void;
     }

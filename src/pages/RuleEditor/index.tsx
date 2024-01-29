@@ -41,7 +41,7 @@ function App() {
 
     const [modified, setModified] = useState(false);
 
-    const pickerRef: MutableRefObject<PickerRef | undefined> = useRef();
+    const pickerRef: MutableRefObject<IPickerRef | undefined> = useRef();
 
     function handleButton() {
         setCollapse(!collapse);

@@ -1,7 +1,7 @@
 /**
  * SpecificationPicker contains the logic for selecting a specification file
  * and displaying the files in a tree view.
- * 
+ *
  * @see {@link https://mui.com/components/autocomplete/}
  * @see {@link https://mui.com/components/text-fields/}
  * @see {@link https://mui.com/components/grid/}
@@ -32,7 +32,7 @@ interface Props {
 
 export const SpecificationPicker = forwardRef((props: Props, ref) => {
     const { update, setDir, snackbar } = props;
-    const [files, setFiles] = useState({} as FileOption);
+    const [files, setFiles] = useState({} as IFileOption);
     const fileHandle = useState(new FileHandler())[0];
 
     /**
@@ -105,7 +105,7 @@ export const SpecificationPicker = forwardRef((props: Props, ref) => {
                     };
                 })
                 .sort((a, b) => -b.group.localeCompare(a.group))
-                .reduce(function (rv: FileOption, x: FileOptionContent) {
+                .reduce(function (rv: IFileOption, x: IFileOptionContent) {
                     (rv[x["group"]] = rv[x["group"]] || []).push(x);
                     return rv;
                 }, {})
@@ -135,7 +135,7 @@ export const SpecificationPicker = forwardRef((props: Props, ref) => {
         () =>
             Object.keys(files).reduce(
                 (acc, cur) => [...acc, ...files[cur]],
-                [] as FileOptionContent[]
+                [] as IFileOptionContent[]
             ),
         [files]
     );
