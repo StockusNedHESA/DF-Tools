@@ -173,7 +173,7 @@ function RuleReport() {
                 autoHideDuration={5000}
                 onClose={() => setOpen(false)}
             />
-            <Stack direction="column" spacing={2} height={"88vh"} style={{ overflow: "hidden" }}>
+            <Stack direction="column" spacing={2} height={"88vh"} style={{ overflow: "hidden", width:1280, margin:"0 auto" }}>
                 <Stack direction="row" justifyContent={"space-evenly"}>
                     <Button variant="contained" onClick={importRules} disabled={!!directory.handle}>
                         Import Rules
