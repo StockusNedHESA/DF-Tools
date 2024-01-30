@@ -131,6 +131,10 @@ function parseText(text: string): [Error, null] | [null, IRule] {
     return [null, rule];
 }
 
+function parseDirectoryName(name: string):string {
+    return name.split("/").pop()!
+}
+
 export {
     resetTolerance,
     updateTolerance,
@@ -138,4 +142,5 @@ export {
     keyCondition,
     sortJSON,
     parseText,
+    parseDirectoryName,
 };

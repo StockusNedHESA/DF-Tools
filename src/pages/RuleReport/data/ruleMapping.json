@@ -1,0 +1,334 @@
+[
+    {
+        "label": "RuleID",
+        "field": "Id"
+    },
+    {
+        "label": "Version",
+        "field": "Version"
+    },
+    {
+        "label": "Folder",
+        "field": "{folder}"
+    },
+    {
+        "label": "Status",
+        "field": "Status"
+    },
+    {
+        "label": "Plain English",
+        "field": "PlainEnglishDescription"
+    },
+    {
+        "label": "Workflow Status",
+        "field": "WorkflowStatus"
+    },
+    {
+        "label": "Intolerable Flag",
+        "field": "IntolerableFlag"
+    },
+    {
+        "label": "Applies To DFENI",
+        "field": "AppliesToDFENI"
+    },
+    {
+        "label": "Applies To OFS",
+        "field": "AppliesToOFS"
+    },
+    {
+        "label": "Applies To HEFCW",
+        "field": "AppliesToHEFCW"
+    },
+    {
+        "label": "Applies To SFC",
+        "field": "AppliesToSFC"
+    },
+    {
+        "label": "Applies To DFEEYSG",
+        "field": "AppliesToDFEEYSG"
+    },
+    {
+        "label": "Applies To WG",
+        "field": "AppliesToWG"
+    },
+    {
+        "label": "Technical Population",
+        "field": "TechnicalPopulation"
+    },
+    {
+        "label": "Technical Validity",
+        "field": "TechnicalValidity"
+    },
+    {
+        "label": "Validity",
+        "field": "Validity"
+    },
+    {
+        "label": "DM Flags",
+        "field": "DMFlags"
+    },
+    {
+        "label": "Category",
+        "field": "Category"
+    },
+    {
+        "label": "Group",
+        "field": "Group"
+    },
+    {
+        "label": "Fields To Display",
+        "field": "FieldsToDisplay"
+    },
+    {
+        "label": "Developer Notes",
+        "field": "DeveloperNotes"
+    },
+    {
+        "label": "OFS Trigger Record Count",
+        "field": "OFSTriggerRecordCount"
+    },
+    {
+        "label": "OFS Trigger Condition",
+        "field": "OFSTriggerCondition"
+    },
+    {
+        "label": "OFS Trigger Percentage",
+        "field": "OFSTriggerPercentage"
+    },
+    {
+        "label": "OFS Provider Record Count",
+        "field": "OFSProviderRecordCount"
+    },
+    {
+        "label": "OFS Provider Percentage",
+        "field": "OFSProviderPercentage"
+    },
+    {
+        "label": "OFS HESA Record Count",
+        "field": "OFSHESARecordCount"
+    },
+    {
+        "label": "OFS HESA Percentage",
+        "field": "OFSHESAPercentage"
+    },
+    {
+        "label": "OFS SC Record Count",
+        "field": "OFSSCRecordCount"
+    },
+    {
+        "label": "OFS SC Percentage",
+        "field": "OFSSCPercentage"
+    },
+    {
+        "label": "DFENI Trigger Record Count",
+        "field": "DFENITriggerRecordCount"
+    },
+    {
+        "label": "DFENI Trigger Condition",
+        "field": "DFENITriggerCondition"
+    },
+    {
+        "label": "DFENI Trigger Percentage",
+        "field": "DFENITriggerPercentage"
+    },
+    {
+        "label": "DFENI Provider Record Count",
+        "field": "DFENIProviderRecordCount"
+    },
+    {
+        "label": "DFENI Provider Percentage",
+        "field": "DFENIProviderPercentage"
+    },
+    {
+        "label": "DFENI HESA Record Count",
+        "field": "DFENIHESARecordCount"
+    },
+    {
+        "label": "DFENI HESA Percentage",
+        "field": "DFENIHESAPercentage"
+    },
+    {
+        "label": "DFENI SC Record Count",
+        "field": "DFENISCRecordCount"
+    },
+    {
+        "label": "DFENI SC Percentage",
+        "field": "DFENISCPercentage"
+    },
+    {
+        "label": "HEFCW Trigger Record Count",
+        "field": "HEFCWTriggerRecordCount"
+    },
+    {
+        "label": "HEFCW Trigger Condition",
+        "field": "HEFCWTriggerCondition"
+    },
+    {
+        "label": "HEFCW Trigger Percentage",
+        "field": "HEFCWTriggerPercentage"
+    },
+    {
+        "label": "HEFCW Provider Record Count",
+        "field": "HEFCWProviderRecordCount"
+    },
+    {
+        "label": "HEFCW Provider Percentage",
+        "field": "HEFCWProviderPercentage"
+    },
+    {
+        "label": "HEFCW HESA Record Count",
+        "field": "HEFCWHESARecordCount"
+    },
+    {
+        "label": "HEFCW HESA Percentage",
+        "field": "HEFCWHESAPercentage"
+    },
+    {
+        "label": "HEFCW SC Record Count",
+        "field": "HEFCWSCRecordCount"
+    },
+    {
+        "label": "HEFCW SC Percentage",
+        "field": "HEFCWSCPercentage"
+    },
+    {
+        "label": "SFC Trigger Record Count",
+        "field": "SFCTriggerRecordCount"
+    },
+    {
+        "label": "SFC Trigger Condition",
+        "field": "SFCTriggerCondition"
+    },
+    {
+        "label": "SFC Trigger Percentage",
+        "field": "SFCTriggerPercentage"
+    },
+    {
+        "label": "SFC Provider Record Count",
+        "field": "SFCProviderRecordCount"
+    },
+    {
+        "label": "SFC Provider Percentage",
+        "field": "SFCProviderPercentage"
+    },
+    {
+        "label": "SFC HESA Record Count",
+        "field": "SFCHESARecordCount"
+    },
+    {
+        "label": "SFC HESA Percentage",
+        "field": "SFCHESAPercentage"
+    },
+    {
+        "label": "SFC SC Record Count",
+        "field": "SFCSCRecordCount"
+    },
+    {
+        "label": "SFC SC Percentage",
+        "field": "SFCSCPercentage"
+    },
+    {
+        "label": "DFEEYSG Trigger Record Count",
+        "field": "DFEEYSGTriggerRecordCount"
+    },
+    {
+        "label": "DFEEYSG Trigger Condition",
+        "field": "DFEEYSGTriggerCondition"
+    },
+    {
+        "label": "DFEEYSG Trigger Percentage",
+        "field": "DFEEYSGTriggerPercentage"
+    },
+    {
+        "label": "DFEEYSG Provider Record Count",
+        "field": "DFEEYSGProviderRecordCount"
+    },
+    {
+        "label": "DFEEYSG Provider Percentage",
+        "field": "DFEEYSGProviderPercentage"
+    },
+    {
+        "label": "DFEEYSG HESA Record Count",
+        "field": "DFEEYSGHESARecordCount"
+    },
+    {
+        "label": "DFEEYSG HESA Percentage",
+        "field": "DFEEYSGHESAPercentage"
+    },
+    {
+        "label": "DFEEYSG SC Record Count",
+        "field": "DFEEYSGSCRecordCount"
+    },
+    {
+        "label": "DFEEYSG SC Percentage",
+        "field": "DFEEYSGSCPercentage"
+    },
+    {
+        "label": "WG Trigger Record Count",
+        "field": "WGTriggerRecordCount"
+    },
+    {
+        "label": "WG Trigger Condition",
+        "field": "WGTriggerCondition"
+    },
+    {
+        "label": "WG Trigger Percentage",
+        "field": "WGTriggerPercentage"
+    },
+    {
+        "label": "WG Provider Record Count",
+        "field": "WGProviderRecordCount"
+    },
+    {
+        "label": "WG Provider Percentage",
+        "field": "WGProviderPercentage"
+    },
+    {
+        "label": "WG HESA Record Count",
+        "field": "WGHESARecordCount"
+    },
+    {
+        "label": "WG HESA Percentage",
+        "field": "WGHESAPercentage"
+    },
+    {
+        "label": "WG SC Record Count",
+        "field": "WGSCRecordCount"
+    },
+    {
+        "label": "WG SC Percentage",
+        "field": "WGSCPercentage"
+    },
+    {
+        "label": "Reason Required",
+        "field": "ReasonRequired"
+    },
+    {
+        "label": "Author Notes",
+        "field": "AuthorNotes"
+    },
+    {
+        "label": "Reason for Change",
+        "field": "ReasonForChange"
+    },
+    {
+        "label":"History of Change",
+        "field":"HistoryOfChange"
+    },
+    {
+        "label": "Last Updated By",
+        "field": "LastUpdatedBy"
+    },
+    {
+        "label": "Peer Reviewed By",
+        "field": "PeerReviewedBy"
+    },
+    {
+        "label": "Review Date",
+        "field": "ReviewDate"
+    },
+    {
+        "label": "Legacy Rule ID",
+        "field": "LegacyRuleId"
+    }
+]

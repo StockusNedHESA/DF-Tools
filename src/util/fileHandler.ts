@@ -31,12 +31,45 @@ class FileHandler {
     }
 
     /**
+     * Iterates through the files and directories in the specified directory handle.
+     *
+     * @param {FileSystemDirectoryHandle} directoryHandle - The handle of the directory to iterate through.
+     * @param {IFileSystemDirectory} dir - The directory object to store the entries.
+     * @param {boolean} recursive - Indicates whether to iterate through subdirectories recursively.
+     * @returns {Promise<IFileSystemDirectory>} The directory object with the entries.
+     */
+    private async iterateFiles(
+        directoryHandle: FileSystemDirectoryHandle,
+        dir: IFileSystemDirectory = {} as IFileSystemDirectory,
+        recursive: boolean = false
+    ): Promise<IFileSystemDirectory> {
+        for await (const [name, handle] of directoryHandle.entries()) {
+            const path = `${dir.path}/${name}`;
+
+            dir.entries[path] = {
+                path,
+                handle,
+                parentHandle: directoryHandle,
+                entries: {},
+            };
+
+            if (handle.kind === "directory" && recursive) {
+                await this.iterateFiles(handle, dir.entries[path], recursive);
+            }
+        }
+
+        return dir;
+    }
+
+    /**
      * getFiles is a method that gets files from a directory.
      * It shows a directory picker, handles permissions, and sets the file system.
      *
      * @returns {Promise<[Error, null] | [null, IFileSystemDirectory]>} A promise that resolves to an error or a directory.
      */
-    async getFiles(): Promise<[Error, null] | [null, IFileSystemDirectory]> {
+    async getFiles(
+        recursive: boolean = false
+    ): Promise<[Error, null] | [null, IFileSystemDirectory]> {
         try {
             const fileSystem = await window.showDirectoryPicker();
             await this.handlePermissions(fileSystem);
@@ -47,19 +80,12 @@ class FileHandler {
                 entries: {},
             };
 
-            for await (const [name, handle] of fileSystem.entries()) {
-                const path = `${dir.path}/${name}`;
-
-                dir.entries[path] = {
-                    path,
-                    handle,
-                    parentHandle: fileSystem,
-                    entries: {},
-                };
-            }
-
-            this.fileSystem = dir;
-            return [null, dir];
+            this.fileSystem = await this.iterateFiles(
+                fileSystem,
+                dir,
+                recursive
+            );
+            return [null, this.fileSystem];
         } catch (error) {
             return [error as Error, null];
         }
@@ -71,8 +97,11 @@ class FileHandler {
      * @param {string} filename - The filename to find.
      * @returns {IFileSystemDirectory} The found entry.
      */
-    private findEntry(filename: string): IFileSystemDirectory {
-        return [...Object.values(this.fileSystem!.entries)].find(
+    private findEntry(
+        filename: string,
+        entries: Record<string, IFileSystemDirectory>
+    ): IFileSystemDirectory {
+        return [...Object.values(entries)].find(
             (entry) => entry.path === filename
         )!;
     }
@@ -85,13 +114,14 @@ class FileHandler {
      * @returns {Promise<[Error, null] | [null, IRule]>} A promise that resolves to an error or a rule.
      */
     public async readFile(
-        filePath: string
+        filePath: string,
+        entries: Record<string, IFileSystemDirectory> = this.fileSystem!.entries
     ): Promise<[Error, null] | [null, IRule]> {
         try {
             if (this.fileSystem === undefined)
                 return [new Error("No file system"), null];
 
-            const handle = this.findEntry(filePath).handle;
+            const handle = this.findEntry(filePath, entries).handle;
             const file = (await handle.getFile(filePath)) as File;
             const content = await file.text();
 
@@ -117,7 +147,7 @@ class FileHandler {
             if (this.fileSystem === undefined)
                 return new Error("No file system");
 
-            const handle = this.findEntry(filePath)
+            const handle = this.findEntry(filePath, this.fileSystem!.entries)
                 .handle as FileSystemFileHandle;
             const writable = await handle.createWritable();
 
