@@ -210,6 +210,9 @@ function RuleReport() {
                             sx={{ width: 400 }}
                             options={folders}
                             defaultValue={folders}
+                            value={folders}
+                            limitTags={3}
+                            onChange={(_, value) => setFolders(value)}
                             renderInput={(params) => (
                                 <TextField
                                     {...params}
