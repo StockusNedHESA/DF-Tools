@@ -1,6 +1,7 @@
 import { useState } from "react";
 import FileHandler from "../../util/fileHandler";
 import {
+    Autocomplete,
     Box,
     Button,
     CircularProgress,
@@ -8,11 +9,13 @@ import {
     LinearProgress,
     Snackbar,
     Stack,
+    TextField,
     Typography,
 } from "@mui/material";
 import { parseDirectoryName } from "../../util/functions";
 import XLSX from "xlsx";
 import Mapping from "./data/ruleMapping.json";
+import ValidFolders from "./data/validFolders.json";
 
 interface Progress {
     total: number;
@@ -26,6 +29,7 @@ const normalise = (value: number, MAX: number) => (value * 100) / MAX;
 
 function RuleReport() {
     const fileHandle = useState(new FileHandler())[0];
+    const [folders, setFolders] = useState(ValidFolders as string[]);
 
     const [open, setOpen] = useState(false);
     const [message, setMessage] = useState("");
@@ -46,10 +50,22 @@ function RuleReport() {
 
     async function importRules() {
         const [error, data] = await fileHandle.getFiles(true);
-
+        
         if (error) return snackbar(error.message);
 
-        setDirectory(data);
+        const filteredData: IFileSystemDirectory = {
+            path: data.path,
+            handle: data.handle,
+            entries: folders.reduce(
+                (acc, folder) => ({
+                    ...acc,
+                    [`${data.path}/${folder}`]: data.entries[`${data.path}/${folder}`],
+                }),
+                {} as Record<string, IFileSystemDirectory>
+            ),
+        }; 
+
+        setDirectory(filteredData);
     }
 
     const workbook = useState(XLSX.utils.book_new())[0];
@@ -144,8 +160,7 @@ function RuleReport() {
                             margin: "10px 0",
                             [`& .MuiCircularProgress-circle`]: {
                                 animation: !progress.complete ? "" : "none",
-                                strokeDasharray:
-                                    !progress.complete ? "" : "none",
+                                strokeDasharray: !progress.complete ? "" : "none",
                             },
                         }}
                     />
@@ -173,11 +188,38 @@ function RuleReport() {
                 autoHideDuration={5000}
                 onClose={() => setOpen(false)}
             />
-            <Stack direction="column" spacing={2} height={"88vh"} style={{ overflow: "hidden", width:1280, margin:"0 auto" }}>
+            <Stack
+                direction="column"
+                spacing={2}
+                height={"88vh"}
+                style={{ overflow: "hidden", width: 1280, margin: "0 auto" }}
+            >
                 <Stack direction="row" justifyContent={"space-evenly"}>
-                    <Button variant="contained" onClick={importRules} disabled={!!directory.handle}>
-                        Import Rules
-                    </Button>
+                    <Stack direction={"row"}>
+                        <Button
+                            variant="contained"
+                            onClick={importRules}
+                            disabled={!!directory.handle}
+                            style={{ marginRight: 10 }}
+                        >
+                            Import Rules
+                        </Button>
+                        <Autocomplete
+                            multiple
+                            freeSolo
+                            sx={{ width: 400 }}
+                            options={folders}
+                            defaultValue={folders}
+                            renderInput={(params) => (
+                                <TextField
+                                    {...params}
+                                    variant="standard"
+                                    label="Folders to extract from"
+                                />
+                            )}
+                        />
+                    </Stack>
+
                     <Button
                         variant="contained"
                         onClick={startProcessing}
