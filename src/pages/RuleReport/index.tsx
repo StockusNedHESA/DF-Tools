@@ -88,7 +88,7 @@ function RuleReport() {
                     continue;
                 }
 
-                tempRules.push({ ...data, "{folder}": rule.path.split("/").shift() });
+                tempRules.push({ ...data, "{folder}": rule.path.split("/")[1] });
                 setProgress((prev) => ({
                     ...prev,
                     reading: prev.reading + 1,
