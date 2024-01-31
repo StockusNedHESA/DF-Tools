@@ -7,7 +7,7 @@ import {
 } from "@mui/material";
 import { blue, blueGrey } from "@mui/material/colors";
 import { registerSW } from "virtual:pwa-register";
-import { Route, RouteObject, BrowserRouter, Routes } from "react-router-dom";
+import { Route, RouteObject, Routes, HashRouter } from "react-router-dom";
 
 import { RouteList } from "./util/routes.tsx";
 import NavBar from "./components/NavBar.tsx";
@@ -28,18 +28,14 @@ registerSW({ immediate: true });
 ReactDOM.createRoot(document.getElementById("root")!).render(
     <React.StrictMode>
         <ThemeProvider theme={theme}>
-            <BrowserRouter basename={"/DF-Tools/"}>
+            <HashRouter>
                 <NavBar />
                 <Routes>
                     {RouteList.map((route: RouteObject) => (
-                        <Route
-                            key={route.id}
-                            path={route.path}
-                            element={route.element}
-                        />
+                        <Route key={route.id} path={route.path} element={route.element} />
                     ))}
                 </Routes>
-            </BrowserRouter>
+            </HashRouter>
         </ThemeProvider>
     </React.StrictMode>
 );
