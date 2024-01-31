@@ -116,10 +116,10 @@ class FileHandler {
     public async readFile(
         filePath: string,
         entries: Record<string, IFileSystemDirectory> = this.fileSystem!.entries
-    ): Promise<[Error, null] | [null, IRule]> {
+    ): Promise<[IValidationError, null] | [null, IRule]> {
         try {
             if (this.fileSystem === undefined)
-                return [new Error("No file system"), null];
+                return [{ msg: "No file system" } as IValidationError, null];
 
             const handle = this.findEntry(filePath, entries).handle;
             const file = (await handle.getFile(filePath)) as File;
@@ -127,7 +127,7 @@ class FileHandler {
 
             return parseText(content);
         } catch (error) {
-            return [error as Error, null];
+            return [{msg: (error as Error).message} as IValidationError, null];
         }
     }
 

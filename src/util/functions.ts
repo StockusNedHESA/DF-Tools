@@ -117,16 +117,15 @@ const Parser = new XMLParser({
  * @param {string} text - The XML text to parse.
  * @returns {[Error, null] | [null, IRule]} An error or the parsed rule.
  */
-function parseText(text: string): [Error, null] | [null, IRule] {
+function parseText(text: string): [IValidationError, null] | [null, IRule] {
     const valid = XMLValidator.validate(text);
 
-    if (typeof valid !== 'boolean' && valid?.err) return [new Error("Invalid XML"), null];
+    if (typeof valid !== "boolean" && valid?.err) return [valid.err, null];
 
     const rule = Parser.parse(text)?.Rule?.Specification;
 
     for (const key of ["DMFlags", "HistoryOfChange", "FieldsToDisplay"])
-        if (rule[key])
-            rule[key] = Array.isArray(rule[key]) ? rule[key] : [rule[key]];
+        if (rule[key]) rule[key] = Array.isArray(rule[key]) ? rule[key] : [rule[key]];
 
     return [null, rule];
 }

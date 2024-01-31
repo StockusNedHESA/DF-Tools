@@ -1,12 +1,15 @@
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import FileHandler from "../../util/fileHandler";
 import {
     Autocomplete,
     Box,
     Button,
-    CircularProgress,
     Divider,
     LinearProgress,
+    List,
+    ListItem,
+    ListItemText,
+    Paper,
     Snackbar,
     Stack,
     TextField,
@@ -21,8 +24,8 @@ interface Progress {
     total: number;
     reading: number;
     readingCurrent: string;
-    finalizing: boolean;
     complete: boolean;
+    errors: { rule: string; error: IValidationError }[];
 }
 
 const normalise = (value: number, MAX: number) => (value * 100) / MAX;
@@ -44,26 +47,28 @@ function RuleReport() {
         total: 0,
         reading: 0,
         readingCurrent: "Nothing processing",
-        finalizing: false,
         complete: false,
+        errors: [],
     } as Progress);
 
     async function importRules() {
         const [error, data] = await fileHandle.getFiles(true);
-        
+
         if (error) return snackbar(error.message);
 
         const filteredData: IFileSystemDirectory = {
             path: data.path,
             handle: data.handle,
-            entries: folders.reduce(
-                (acc, folder) => ({
-                    ...acc,
-                    [`${data.path}/${folder}`]: data.entries[`${data.path}/${folder}`],
-                }),
-                {} as Record<string, IFileSystemDirectory>
-            ),
-        }; 
+            entries: folders
+                .filter((folder) => Object.keys(data.entries).includes(`${data.path}/${folder}`))
+                .reduce(
+                    (acc, folder) => ({
+                        ...acc,
+                        [`${data.path}/${folder}`]: data.entries[`${data.path}/${folder}`],
+                    }),
+                    {} as Record<string, IFileSystemDirectory>
+                ),
+        };
 
         setDirectory(filteredData);
     }
@@ -84,7 +89,14 @@ function RuleReport() {
                 const [error, data] = await fileHandle.readFile(rule.path, entry.entries);
 
                 if (error) {
-                    snackbar(`Error reading ${rule.path.split("/").pop()}: ${error.message}`);
+                    setProgress((prev) => ({
+                        ...prev,
+                        errors: [
+                            ...prev.errors,
+                            { rule: rule.path.split("/").pop() as string, error },
+                        ],
+                    }));
+
                     continue;
                 }
 
@@ -96,8 +108,6 @@ function RuleReport() {
                 }));
             }
         }
-
-        setProgress((prev) => ({ ...prev, finalizing: true }));
 
         const rules: IRule[] = [];
         for (const rule of tempRules) {
@@ -142,40 +152,60 @@ function RuleReport() {
                 justifyContent={"space-evenly"}
                 spacing={5}
             >
-                <Box sx={{ opacity: progress.reading === 0 ? "10%" : "100%" }}>
-                    <Typography variant="h6">
-                        Reading Rules {progress.reading}/{progress.total}
-                    </Typography>
-                    <LinearProgress
-                        style={{ width: 650, height: 10, borderRadius: 5 }}
-                        variant={"determinate"}
-                        value={normalise(progress.reading, progress.total)}
-                    />
-                    <Typography style={{ marginTop: 10 }}>{progress.readingCurrent}</Typography>
-                </Box>
-                <Box sx={{ opacity: progress.finalizing ? "100%" : "10%" }}>
-                    <Typography variant="h6">Finalizing</Typography>
-                    <CircularProgress
-                        sx={{
-                            margin: "10px 0",
-                            [`& .MuiCircularProgress-circle`]: {
-                                animation: !progress.complete ? "" : "none",
-                                strokeDasharray: !progress.complete ? "" : "none",
-                            },
-                        }}
-                    />
-                </Box>
-                <Box sx={{ opacity: progress.complete ? "100%" : "10%" }}>
-                    <Typography variant="h6">Rule Report Complete</Typography>
+                <Stack direction={"row"} spacing={5}>
+                    <Box sx={{ opacity: progress.reading === 0 ? "10%" : "100%" }}>
+                        <Typography variant="h6">
+                            Reading Rules {progress.reading}/{progress.total}
+                        </Typography>
+                        <LinearProgress
+                            style={{ width: 650, height: 10, borderRadius: 5 }}
+                            variant={"determinate"}
+                            value={normalise(progress.reading, progress.total)}
+                        />
+                        <Typography style={{ marginTop: 10 }}>{progress.readingCurrent}</Typography>
+                    </Box>
                     <Button
-                        sx={{ margin: "0 auto" }}
+                        style={{ maxHeight: 40, marginTop: 17.5 }}
                         disabled={!progress.complete}
                         variant={"contained"}
                         onClick={() => XLSX.writeFile(workbook, "RulesReport.xlsx")}
                     >
-                        Download
+                        Download Rule Report
                     </Button>
-                </Box>
+                </Stack>
+                <Paper sx={{ width: "80%", padding: 1 }}>
+                    <Stack direction={"row"} justifyContent={"space-between"}>
+                        <Typography variant="h6" align="left" marginLeft={2}>
+                            Potentials Errors
+                        </Typography>
+                        <Typography>
+                            Rules that errored will not be included in the report
+                        </Typography>
+                    </Stack>
+                    <List>
+                        {progress.errors.length === 0 && <Typography>No errors</Typography>}
+                        {progress.errors.map((error) => (
+                            <ListItem alignItems={"flex-start"}>
+                                <ListItemText
+                                    primary={error.rule}
+                                    secondary={
+                                        <Fragment>
+                                            <Typography
+                                                sx={{ display: "inline" }}
+                                                component="span"
+                                                variant="body2"
+                                                color="text.primary"
+                                            >
+                                                {error.error.code} at line {error.error.line}
+                                            </Typography>
+                                            {` | ${error.error.msg}`}
+                                        </Fragment>
+                                    }
+                                />
+                            </ListItem>
+                        ))}
+                    </List>
+                </Paper>
             </Stack>
         );
     }

@@ -123,7 +123,7 @@ export const SpecificationPicker = forwardRef((props: Props, ref) => {
         const [error, rule] = await fileHandle.readFile(path);
         if (error)
             return snackbar(
-                `Error occured while reading XML:\n${error.message}`
+                `Error occured while reading XML:\n${error.msg}`
             );
 
         resetTolerance();

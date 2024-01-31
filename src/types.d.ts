@@ -81,11 +81,7 @@ declare global {
         TechnicalPopulation?: string;
         TechnicalValidity?: string;
         Validity?: "Valid" | "Invalid";
-        DMFlags?: (
-            | "Enhanced Coding Frame"
-            | "Derived Field"
-            | "Reference Data"
-        )[];
+        DMFlags?: ("Enhanced Coding Frame" | "Derived Field" | "Reference Data")[];
         Category?:
             | "Coverage"
             | "Guidance"
@@ -126,13 +122,18 @@ declare global {
 
     interface IEditToolbarProps {
         setRows: (newRows: (oldRows: GridRowsProp) => GridRowsProp) => void;
-        setRowModesModel: (
-            newModel: (oldModel: GridRowModesModel) => GridRowModesModel
-        ) => void;
+        setRowModesModel: (newModel: (oldModel: GridRowModesModel) => GridRowModesModel) => void;
     }
 
     interface IPickerRef {
         saveFile: (rule: IRule) => Promise<boolean>;
         getFiles: () => void;
+    }
+
+    interface IValidationError {
+        msg: string;
+        code: string;
+        line: number;
+        col: number;
     }
 }
