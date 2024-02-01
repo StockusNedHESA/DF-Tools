@@ -4,8 +4,12 @@
         "field": "Id"
     },
     {
-        "label": "Version",
-        "field": "Version"
+        "label": "ValidFrom",
+        "field": "ValidFrom"
+    },
+    {
+        "label": "ValidTo",
+        "field": "ValidTo"
     },
     {
         "label": "Folder",
