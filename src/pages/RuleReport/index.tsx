@@ -15,8 +15,9 @@ import {
     TextField,
     Typography,
 } from "@mui/material";
-import { parseDirectoryName } from "../../util/functions";
-import XLSX from "xlsx";
+import { parseDirectoryName, createWorksheet } from "../../util/functions";
+import ExcelJS from "exceljs";
+import saveAs from "file-saver";
 import Mapping from "./data/ruleMapping.json";
 import ValidFolders from "./data/validFolders.json";
 
@@ -73,7 +74,7 @@ function RuleReport() {
         setDirectory(filteredData);
     }
 
-    const workbook = useState(XLSX.utils.book_new())[0];
+    const workbook = useState(new ExcelJS.Workbook())[0];
     async function startProcessing() {
         setProgress((prev) => ({
             ...prev,
@@ -124,22 +125,51 @@ function RuleReport() {
             );
         }
 
-        const worksheet = XLSX.utils.json_to_sheet(rules);
-
-        const fieldLengths = Object.keys(rules[0]).reduce((acc: number[], field: string) => {
+        const fieldLengths = Object.keys(rules[0]).reduce((acc: number[], field: string, index) => {
             const lengths = rules.map((rule) => (rule[field] as string).length);
             const averageLength = Math.ceil(
                 lengths.reduce((sum, length) => sum + length, 0) / lengths.length
             );
 
-            if (averageLength < field.length) return [...acc, field.length];
-            return [...acc, averageLength];
+            if (averageLength < field.length) return [...acc, field.length + 2];
+            if (averageLength < Mapping[index].label.length)
+                return [...acc, Mapping[index].label.length + 2];
+            if (averageLength > 50) return [...acc, 50];
+            return [...acc, averageLength + 2];
         }, []);
 
-        worksheet["!cols"] = fieldLengths.map((size) => ({ wch: size }));
+        createWorksheet(workbook, "All Rules", fieldLengths, rules);
 
-        XLSX.utils.book_append_sheet(workbook, worksheet, "Rules");
+        const latestRulesVersions = rules.reduce((acc: { [key: string]: number }, cur: IRule) => {
+            const rule = cur["RuleID"] as string;
+            const version = Number(rule.match(/V(\d+)$/)![1]);
+            const field = rule.slice(0, -4);
+
+            if (!acc[field] || version > acc[field]) {
+                acc[field] = version;
+            }
+
+            return acc;
+        }, {} as { [key: string]: number });
+
+        const latestRules = rules.filter((rule) => {
+            const version = Number((rule["RuleID"] as string).match(/V(\d+)$/)![1]);
+            const field = (rule["RuleID"] as string).slice(0, -4);
+            return version === latestRulesVersions[field];
+        });
+
+        createWorksheet(workbook, "Latest Rules", fieldLengths, latestRules);
+
         setProgress((prev) => ({ ...prev, complete: true }));
+    }
+
+    async function saveWorkbook() {
+        const buffer = await workbook.xlsx.writeBuffer();
+        const blob = new Blob([buffer], {
+            type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        });
+
+        saveAs(blob, "RulesReport.xlsx");
     }
 
     function HandleProcessing() {
@@ -168,7 +198,7 @@ function RuleReport() {
                         style={{ maxHeight: 40, marginTop: 17.5 }}
                         disabled={!progress.complete}
                         variant={"contained"}
-                        onClick={() => XLSX.writeFile(workbook, "RulesReport.xlsx")}
+                        onClick={saveWorkbook}
                     >
                         Download Rule Report
                     </Button>
@@ -185,7 +215,7 @@ function RuleReport() {
                     <List>
                         {progress.errors.length === 0 && <Typography>No errors</Typography>}
                         {progress.errors.map((error) => (
-                            <ListItem alignItems={"flex-start"}>
+                            <ListItem key={error.rule} alignItems={"flex-start"}>
                                 <ListItemText
                                     primary={error.rule}
                                     secondary={

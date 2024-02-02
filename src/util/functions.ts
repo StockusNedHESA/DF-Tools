@@ -134,6 +134,42 @@ function parseDirectoryName(name: string):string {
     return name.split("/").pop()!
 }
 
+import { Workbook } from "exceljs";
+import Mapping from '../pages/RuleReport/data/ruleMapping.json'
+
+
+/**
+ * Creates a worksheet in a workbook with the specified label, field lengths, and rules.
+ * @param workbook - The workbook to add the worksheet to.
+ * @param label - The label of the worksheet.
+ * @param fieldLengths - An array of field lengths for each column in the worksheet.
+ * @param rules - An array of rules to populate the worksheet with.
+ */
+function createWorksheet(workbook: Workbook,label:string, fieldLengths: number[], rules: IRule[]) {
+    const worksheet = workbook.addWorksheet(label, {
+        views: [{ state: "frozen", ySplit: 1, xSplit: 1 }],
+        pageSetup: { fitToPage: true },
+    });
+
+    worksheet.columns = fieldLengths.map((length, index) => ({
+        header: Mapping[index].label,
+        key: Mapping[index].label,
+        width: length,
+        font: { bold: true },
+    }));
+
+    worksheet.addRows(rules);
+    worksheet.autoFilter = {
+        from: { row: 1, column: 1 },
+        to: { row: Mapping.length, column: rules.length },
+    };
+    worksheet.getRows(1, rules.length)!.forEach((row) => {
+        row.eachCell((cell) => {
+            cell.alignment = { vertical: "middle", horizontal: "left", wrapText: true };
+        });
+    });
+}
+
 export {
     resetTolerance,
     updateTolerance,
@@ -142,4 +178,5 @@ export {
     sortJSON,
     parseText,
     parseDirectoryName,
+    createWorksheet,
 };
