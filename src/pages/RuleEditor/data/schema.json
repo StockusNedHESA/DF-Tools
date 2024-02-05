@@ -276,12 +276,12 @@
             "type": "string",
             "enum": [
                 "Coverage",
+                "Reverse Coverage",
                 "Guidance",
                 "Data integrity",
                 "Continuity",
                 "Credibility report",
                 "Updateability",
-                "Foundational (TBC)",
                 "Valid values"
             ],
             "default": "Coverage"
