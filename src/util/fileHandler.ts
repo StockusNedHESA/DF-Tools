@@ -26,8 +26,7 @@ class FileHandler {
     private async handlePermissions(handle: FileSystemDirectoryHandle) {
         const permission = await handle.queryPermission({ mode: "readwrite" });
 
-        if (permission !== "granted")
-            await handle.requestPermission({ mode: "readwrite" });
+        if (permission !== "granted") await handle.requestPermission({ mode: "readwrite" });
     }
 
     /**
@@ -80,11 +79,7 @@ class FileHandler {
                 entries: {},
             };
 
-            this.fileSystem = await this.iterateFiles(
-                fileSystem,
-                dir,
-                recursive
-            );
+            this.fileSystem = await this.iterateFiles(fileSystem, dir, recursive);
             return [null, this.fileSystem];
         } catch (error) {
             return [error as Error, null];
@@ -101,9 +96,7 @@ class FileHandler {
         filename: string,
         entries: Record<string, IFileSystemDirectory>
     ): IFileSystemDirectory {
-        return [...Object.values(entries)].find(
-            (entry) => entry.path === filename
-        )!;
+        return [...Object.values(entries)].find((entry) => entry.path === filename)!;
     }
 
     /**
@@ -127,7 +120,7 @@ class FileHandler {
 
             return parseText(content);
         } catch (error) {
-            return [{msg: (error as Error).message} as IValidationError, null];
+            return [{ msg: (error as Error).message } as IValidationError, null];
         }
     }
 
@@ -139,13 +132,9 @@ class FileHandler {
      * @param {IRule} content - The rule to write.
      * @returns {Promise<Error | undefined>} A promise that resolves to an error or undefined.
      */
-    public async writeFile(
-        filePath: string,
-        content: IRule
-    ): Promise<Error | undefined> {
+    public async writeFile(filePath: string, content: IRule): Promise<Error | undefined> {
         try {
-            if (this.fileSystem === undefined)
-                return new Error("No file system");
+            if (this.fileSystem === undefined) return new Error("No file system");
 
             const handle = this.findEntry(filePath, this.fileSystem!.entries)
                 .handle as FileSystemFileHandle;

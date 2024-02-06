@@ -1,10 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import {
-    createTheme,
-    ThemeProvider,
-    unstable_createMuiStrictModeTheme,
-} from "@mui/material";
+import { createTheme, ThemeProvider, unstable_createMuiStrictModeTheme } from "@mui/material";
 import { blue, blueGrey } from "@mui/material/colors";
 import { registerSW } from "virtual:pwa-register";
 import { Route, RouteObject, Routes, HashRouter } from "react-router-dom";

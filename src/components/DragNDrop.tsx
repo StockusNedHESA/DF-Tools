@@ -17,7 +17,7 @@ interface Props {
     snackbar: (message: string) => void;
 }
 
-export const DragNDrop = ({update,snackbar}:Props) => {
+export const DragNDrop = ({ update, snackbar }: Props) => {
     const [dragging, setDragging] = useState(false);
 
     const handleDragEnter = (e: DragEvent<HTMLDivElement>) => {

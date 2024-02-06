@@ -126,9 +126,7 @@ function App() {
                             >
                                 <Folder />
                             </IconButton>
-                            <Typography variant="h6">
-                                Current Directory: {dir || "None"}
-                            </Typography>
+                            <Typography variant="h6">Current Directory: {dir || "None"}</Typography>
                         </Stack>
                         <Card sx={{ padding: "10px" }}>
                             <SpecificationPicker

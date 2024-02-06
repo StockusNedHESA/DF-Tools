@@ -34,7 +34,7 @@ interface Props {
 
 const drawerWidth = 240;
 
-export default function DrawerAppBar({ window } : Props) {
+export default function DrawerAppBar({ window }: Props) {
     const navigator = useNavigate();
     const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -43,10 +43,7 @@ export default function DrawerAppBar({ window } : Props) {
     };
 
     const drawer = (
-        <Box
-            onClick={handleDrawerToggle}
-            sx={{ textAlign: "center", paddingBottom: "100px" }}
-        >
+        <Box onClick={handleDrawerToggle} sx={{ textAlign: "center", paddingBottom: "100px" }}>
             <Typography variant="h6" sx={{ my: 2 }}>
                 DF Tools
             </Typography>
@@ -63,10 +60,7 @@ export default function DrawerAppBar({ window } : Props) {
                     </ListItem>
                 ))}
                 <ListItem key="refresh" disablePadding>
-                    <ListItemButton
-                        onClick={() => location.reload()}
-                        sx={{ textAlign: "center" }}
-                    >
+                    <ListItemButton onClick={() => location.reload()} sx={{ textAlign: "center" }}>
                         <ListItemText primary="Refresh" />
                     </ListItemButton>
                 </ListItem>
@@ -74,8 +68,7 @@ export default function DrawerAppBar({ window } : Props) {
         </Box>
     );
 
-    const container =
-        window !== undefined ? () => window().document.body : undefined;
+    const container = window !== undefined ? () => window().document.body : undefined;
 
     return (
         <Box sx={{ display: "flex", marginBottom: "50px" }}>
