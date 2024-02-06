@@ -1280,8 +1280,6 @@ class oe extends g {
 ce(self.__WB_MANIFEST || []);
 ae();
 let le;
-T(
-  new oe(ne("index.html"), { allowlist: le })
-);
+T(new oe(ne("index.html"), { allowlist: le }));
 self.skipWaiting();
 ie();
