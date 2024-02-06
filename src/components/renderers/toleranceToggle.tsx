@@ -8,13 +8,13 @@
 import { uiTypeIs, rankWith, ControlProps } from "@jsonforms/core";
 import { withJsonFormsControlProps } from "@jsonforms/react";
 import { Checkbox, FormControlLabel } from "@mui/material";
-import React, { PropsWithChildren } from "react";
+import { PropsWithChildren, ReactElement } from "react";
 import { updateTolerance } from "../../util/functions";
 
 export default {
     tester: rankWith(1, uiTypeIs("ToleranceToggle")),
     renderer: withJsonFormsControlProps(
-        (props: PropsWithChildren<ControlProps>): React.ReactElement => {
+        (props: PropsWithChildren<ControlProps>): ReactElement => {
             const { data, handleChange, path, uischema } = props;
 
             return (

@@ -8,7 +8,7 @@
  * @see {@link https://mui.com/components/box/}
  */
 
-import React, { useState } from "react";
+import { useState, DragEvent } from "react";
 import { Box, Typography } from "@mui/material";
 import { parseText } from "../util/functions";
 
@@ -20,17 +20,17 @@ interface Props {
 export const DragNDrop = ({update,snackbar}:Props) => {
     const [dragging, setDragging] = useState(false);
 
-    const handleDragEnter = (e: React.DragEvent<HTMLDivElement>) => {
+    const handleDragEnter = (e: DragEvent<HTMLDivElement>) => {
         e.preventDefault();
         setDragging(true);
     };
 
-    const handleDragLeave = (e: React.DragEvent<HTMLDivElement>) => {
+    const handleDragLeave = (e: DragEvent<HTMLDivElement>) => {
         e.preventDefault();
         setDragging(false);
     };
 
-    const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+    const handleDragOver = (e: DragEvent<HTMLDivElement>) => {
         e.preventDefault();
     };
 
@@ -39,9 +39,9 @@ export const DragNDrop = ({update,snackbar}:Props) => {
      * It prevents the default action, sets dragging to false, reads the text from the dropped file,
      * parses the text, and if there is no error, updates the rule.
      *
-     * @param {React.DragEvent<HTMLDivElement>} e - The drag event.
+     * @param {DragEvent<HTMLDivElement>} e - The drag event.
      */
-    const handleDrop = async (e: React.DragEvent<HTMLDivElement>) => {
+    const handleDrop = async (e: DragEvent<HTMLDivElement>) => {
         e.preventDefault();
         setDragging(false);
 

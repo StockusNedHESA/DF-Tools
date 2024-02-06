@@ -7,7 +7,7 @@
  * @see {@link https://mui.com/components/toolbar/}
  */
 
-import * as React from "react";
+import { useState } from "react";
 import MenuIcon from "@mui/icons-material/Menu";
 import {
     AppBar,
@@ -34,10 +34,9 @@ interface Props {
 
 const drawerWidth = 240;
 
-export default function DrawerAppBar(props: Props) {
-    const { window } = props;
+export default function DrawerAppBar({ window } : Props) {
     const navigator = useNavigate();
-    const [mobileOpen, setMobileOpen] = React.useState(false);
+    const [mobileOpen, setMobileOpen] = useState(false);
 
     const handleDrawerToggle = () => {
         setMobileOpen((prevState) => !prevState);

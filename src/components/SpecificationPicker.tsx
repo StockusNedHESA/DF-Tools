@@ -53,24 +53,16 @@ export const SpecificationPicker = forwardRef((props: Props, ref) => {
                       );
 
             // If an existing entry was found, write the rule to the file at the existing path
-            if (existing) {
-                const success = await fileHandle.writeFile(existing.path, rule);
-                if (success instanceof Error) {
-                    snackbar(
-                        `Error occured while saving Specifcation:\n${success.message}`
-                    );
-                    return false;
-                }
-            } else {
-                const success = await fileHandle.writeFileAs(rule);
-                if (success instanceof Error) {
-                    snackbar(
-                        `Error occured while saving Specifcation:\n${success.message}`
-                    );
-                    return false;
-                }
-            }
+            const success = existing ? await fileHandle.writeFile(existing.path, rule)
+                        : await fileHandle.writeFileAs(rule);
 
+            if (success instanceof Error) {
+                snackbar(
+                    `Error occured while saving Specifcation:\n${success.message}`
+                );
+                return false;
+            }
+            
             // If no error occurred, return true (success)
             return true;
         },
