@@ -41,14 +41,14 @@ const ArrayTable = (label: string, scope: string) => ({
 
 const depeondOnOthers = (name: string, type: string) => ({
     rule: {
-        effect:"ENABLE",
+        effect: "ENABLE",
         condition: {
             scope: "#",
             schema: {
                 required: [`${name}Trigger${type}`],
             },
         },
-    }
+    },
 });
 
 export default VerticalLayout([
@@ -62,7 +62,7 @@ export default VerticalLayout([
             ]),
         ]),
         Control("Plain English Description", "PlainEnglishDescription", {
-            options: {multi:true}
+            options: { multi: true },
         }),
         HorizontalLayout([
             VerticalLayout([
@@ -81,41 +81,27 @@ export default VerticalLayout([
                 Category(name, [
                     HorizontalLayout([
                         ToleranceToggle("Applies to", `AppliesTo${name}`),
-                        Control(
-                            "Trigger Record Count",
-                            `${name}TriggerRecordCount`
-                        ),
+                        Control("Trigger Record Count", `${name}TriggerRecordCount`),
                         Control("Trigger Condition", `${name}TriggerCondition`),
-                        Control(
-                            "Trigger Percentage",
-                            `${name}TriggerPercentage`
-                        ),
+                        Control("Trigger Percentage", `${name}TriggerPercentage`),
                     ]),
                     Divider(),
                     HorizontalLayout([
                         VerticalLayout([
-                            Control(
-                                "Provider Record Count",
-                                `${name}ProviderRecordCount`,
-                                { ...depeondOnOthers(name, "RecordCount") }
-                            ),
-                            Control(
-                                "Provider Percentage",
-                                `${name}ProviderPercentage`,
-                                { ...depeondOnOthers(name, "Percentage") }
-                            ),
+                            Control("Provider Record Count", `${name}ProviderRecordCount`, {
+                                ...depeondOnOthers(name, "RecordCount"),
+                            }),
+                            Control("Provider Percentage", `${name}ProviderPercentage`, {
+                                ...depeondOnOthers(name, "Percentage"),
+                            }),
                         ]),
                         VerticalLayout([
-                            Control(
-                                "Hesa Record Count",
-                                `${name}HESARecordCount`,
-                                { ...depeondOnOthers(name, "RecordCount") }
-                            ),
-                            Control(
-                                "HESA Percentage",
-                                `${name}HESAPercentage`,
-                                { ...depeondOnOthers(name, "Percentage") }
-                            ),
+                            Control("Hesa Record Count", `${name}HESARecordCount`, {
+                                ...depeondOnOthers(name, "RecordCount"),
+                            }),
+                            Control("HESA Percentage", `${name}HESAPercentage`, {
+                                ...depeondOnOthers(name, "Percentage"),
+                            }),
                         ]),
                         VerticalLayout([
                             Control("SC Record Count", `${name}SCRecordCount`, {
@@ -132,14 +118,14 @@ export default VerticalLayout([
     ]),
     Group("Quality Rule", [
         Control("Technical Population", "TechnicalPopulation", {
-            options: {multi:true}
+            options: { multi: true },
         }),
         Spacing(),
         Control("Technical Validity", "TechnicalValidity", {
-            options: {multi:true}
+            options: { multi: true },
         }),
         Spacing(),
-        Control("Developer Notes", "DeveloperNotes", { options: {multi:true} }),
+        Control("Developer Notes", "DeveloperNotes", { options: { multi: true } }),
         Spacing(),
         ArrayTable("Fields To Display", "FieldsToDisplay"),
         Spacing(),
@@ -155,22 +141,22 @@ export default VerticalLayout([
     Group("Other", [
         Categorization([
             Category("Initial Information", [
-                Control("Reason Required", "ReasonRequired", { options: {multi:true} }),
+                Control("Reason Required", "ReasonRequired", { options: { multi: true } }),
                 Spacing(),
-                Control("Author Notes", "AuthorNotes", { options: {multi:true} }),
+                Control("Author Notes", "AuthorNotes", { options: { multi: true } }),
                 Spacing(),
                 Divider(),
                 Spacing(),
                 HorizontalLayout([
                     Control("Review Date", "ReviewDate", {
-                        options: {multi:true}
+                        options: { multi: true },
                     }),
-                    Control("Legacy Rule Id", "LegacyRuleId", { options: {multi:true} }),
+                    Control("Legacy Rule Id", "LegacyRuleId", { options: { multi: true } }),
                 ]),
             ]),
             Category("History Of Change", [
                 Control("Reason For Change", "ReasonForChange", {
-                    options: {multi:true}
+                    options: { multi: true },
                 }),
                 ArrayTable("History Of Change", "HistoryOfChange"),
             ]),

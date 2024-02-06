@@ -24,11 +24,7 @@ describe("Functions", () => {
                 ctrlKey: false,
             });
 
-            const result = Functions.keyCondition(
-                event,
-                "KeyS",
-                window.navigator
-            );
+            const result = Functions.keyCondition(event, "KeyS", window.navigator);
 
             expect(result).toBeFalsy();
         });
