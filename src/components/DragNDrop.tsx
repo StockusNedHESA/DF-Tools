@@ -49,7 +49,10 @@ export const DragNDrop = ({ update, snackbar }: Props) => {
         const text = await file.text();
 
         const [error, rule] = parseText(text);
-        if (error) return snackbar(error.msg);
+        if (error) {
+            if (rule) snackbar((error as IValidationError).msg);
+            else return snackbar(error.msg);
+        }
 
         update(rule);
     };

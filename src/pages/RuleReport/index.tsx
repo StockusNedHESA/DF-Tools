@@ -89,7 +89,7 @@ function RuleReport() {
             for (const rule of Object.values(entry.entries)) {
                 const [error, data] = await fileHandle.readFile(rule.path, entry.entries);
 
-                if (error) {
+                if (error && error.code !== "SCHEMA_VALIDATION_FAILED") {
                     setProgress((prev) => ({
                         ...prev,
                         errors: [

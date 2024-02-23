@@ -103,7 +103,10 @@ export const SpecificationPicker = forwardRef((props: Props, ref) => {
      */
     async function selectFile(path: string) {
         const [error, rule] = await fileHandle.readFile(path);
-        if (error) return snackbar(`Error occured while reading XML:\n${error.msg}`);
+        if (error) {
+            if (rule) snackbar(`Error occured while reading XML:\n${(error as IValidationError).msg}`);
+            else return snackbar(`Error occured while reading XML:\n${error.msg}`);
+        }
 
         resetTolerance();
         update(rule);
