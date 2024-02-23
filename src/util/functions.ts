@@ -98,7 +98,9 @@ function sortJSON(data: IRule, schema: typeof Schema = Schema) {
 }
 
 import { XMLParser, XMLValidator } from "fast-xml-parser";
+import schema from '../pages/RuleEditor/data/schema.json'
 
+const validKeys = Object.keys(schema.properties)
 const Parser = new XMLParser({
     ignoreAttributes: false,
     parseAttributeValue: true,
@@ -126,7 +128,10 @@ function parseText(text: string): [IValidationError, null] | [null, IRule] {
 
     for (const key of ["DMFlags", "HistoryOfChange", "FieldsToDisplay"])
         if (rule[key]) rule[key] = Array.isArray(rule[key]) ? rule[key] : [rule[key]];
-
+    
+    for (const key in rule)
+        if (!validKeys.includes(key)) return [{ msg: `Invalid key: ${key} - Does not match schema!` }, null];
+        
     return [null, rule];
 }
 

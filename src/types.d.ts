@@ -131,9 +131,9 @@ declare global {
     }
 
     interface IValidationError {
-        msg: string;
-        code: string;
-        line: number;
-        col: number;
+        msg?: string;
+        code?: string;
+        line?: number;
+        col?: number;
     }
 }
