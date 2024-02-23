@@ -10,13 +10,8 @@ function updateTolerance(type: string, toggle: boolean) {
     const contextNode = document.querySelector('[role="tablist"') as Node;
     const typeResult = XPathResult.FIRST_ORDERED_NODE_TYPE;
 
-    const node = document.evaluate(
-        expression,
-        contextNode,
-        null,
-        typeResult,
-        null
-    )!.singleNodeValue as HTMLElement;
+    const node = document.evaluate(expression, contextNode, null, typeResult, null)!
+        .singleNodeValue as HTMLElement;
 
     if (!node?.style) return;
 
@@ -59,17 +54,21 @@ function resetTolerance() {
  * keyCondition is a function that checks if a key was pressed with a modifier.
  * It checks if the platform is Mac and uses the meta key as the modifier, otherwise it uses the ctrl key.
  * Undefined as unknown as Navigator is used to prevent the need for mocking.
- * 
+ *
  * @param {KeyboardEvent} event - The keyboard event.
  * @param {string} key - The key to check.
  * @returns {boolean} Whether the key was pressed with the modifier.
  */
-function keyCondition(event: KeyboardEvent, key: string, nav: Navigator = undefined as unknown as Navigator) {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-expect-error
-    return ((nav?.userAgentData?.platform === "Mac"
-            ? event.metaKey
-            : event.ctrlKey) && event.code === key
+function keyCondition(
+    event: KeyboardEvent,
+    key: string,
+    nav: Navigator = undefined as unknown as Navigator
+) {
+    return (
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-expect-error
+        (nav?.userAgentData?.platform === "Mac" ? event.metaKey : event.ctrlKey) &&
+        event.code === key
     );
 }
 
@@ -90,8 +89,7 @@ function sortJSON(data: IRule, schema: typeof Schema = Schema) {
         if (Array.isArray(value))
             sorted[key as keyof IRule] = value.length === 1 ? value[0] : value;
 
-        if (value !== undefined)
-            sorted[key as keyof IRule] = data[key as keyof IRule];
+        if (value !== undefined) sorted[key as keyof IRule] = data[key as keyof IRule];
     }
 
     return sorted;
@@ -135,13 +133,12 @@ function parseText(text: string): [IValidationError, null] | [null, IRule] {
     return [null, rule];
 }
 
-function parseDirectoryName(name: string):string {
-    return name.split("/").pop()!
+function parseDirectoryName(name: string): string {
+    return name.split("/").pop()!;
 }
 
 import { Workbook } from "exceljs";
-import Mapping from '../pages/RuleReport/data/ruleMapping.json'
-
+import Mapping from "../pages/RuleReport/data/ruleMapping.json";
 
 /**
  * Creates a worksheet in a workbook with the specified label, field lengths, and rules.
@@ -150,7 +147,12 @@ import Mapping from '../pages/RuleReport/data/ruleMapping.json'
  * @param fieldLengths - An array of field lengths for each column in the worksheet.
  * @param rules - An array of rules to populate the worksheet with.
  */
-function createWorksheet(workbook: Workbook,label:string, fieldLengths: number[], rules: IRule[]) {
+function createWorksheet(
+    workbook: Workbook,
+    label: string,
+    fieldLengths: number[],
+    rules: IRule[]
+) {
     const worksheet = workbook.addWorksheet(label, {
         views: [{ state: "frozen", ySplit: 1, xSplit: 1 }],
         pageSetup: { fitToPage: true },

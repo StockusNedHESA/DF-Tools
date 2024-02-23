@@ -7,7 +7,7 @@
  * @see {@link https://mui.com/components/toolbar/}
  */
 
-import * as React from "react";
+import { useState } from "react";
 import MenuIcon from "@mui/icons-material/Menu";
 import {
     AppBar,
@@ -34,20 +34,16 @@ interface Props {
 
 const drawerWidth = 240;
 
-export default function DrawerAppBar(props: Props) {
-    const { window } = props;
+export default function DrawerAppBar({ window }: Props) {
     const navigator = useNavigate();
-    const [mobileOpen, setMobileOpen] = React.useState(false);
+    const [mobileOpen, setMobileOpen] = useState(false);
 
     const handleDrawerToggle = () => {
         setMobileOpen((prevState) => !prevState);
     };
 
     const drawer = (
-        <Box
-            onClick={handleDrawerToggle}
-            sx={{ textAlign: "center", paddingBottom: "100px" }}
-        >
+        <Box onClick={handleDrawerToggle} sx={{ textAlign: "center", paddingBottom: "100px" }}>
             <Typography variant="h6" sx={{ my: 2 }}>
                 DF Tools
             </Typography>
@@ -64,10 +60,7 @@ export default function DrawerAppBar(props: Props) {
                     </ListItem>
                 ))}
                 <ListItem key="refresh" disablePadding>
-                    <ListItemButton
-                        onClick={() => location.reload()}
-                        sx={{ textAlign: "center" }}
-                    >
+                    <ListItemButton onClick={() => location.reload()} sx={{ textAlign: "center" }}>
                         <ListItemText primary="Refresh" />
                     </ListItemButton>
                 </ListItem>
@@ -75,8 +68,7 @@ export default function DrawerAppBar(props: Props) {
         </Box>
     );
 
-    const container =
-        window !== undefined ? () => window().document.body : undefined;
+    const container = window !== undefined ? () => window().document.body : undefined;
 
     return (
         <Box sx={{ display: "flex", marginBottom: "50px" }}>

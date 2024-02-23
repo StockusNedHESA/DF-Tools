@@ -316,8 +316,8 @@
         "field": "ReasonForChange"
     },
     {
-        "label":"History of Change",
-        "field":"HistoryOfChange"
+        "label": "History of Change",
+        "field": "HistoryOfChange"
     },
     {
         "label": "Last Updated By",

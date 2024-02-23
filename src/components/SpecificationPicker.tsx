@@ -10,13 +10,7 @@
  */
 
 import { useState, useMemo, forwardRef, useImperativeHandle } from "react";
-import {
-    Autocomplete,
-    TextField,
-    Typography,
-    Grid,
-    Button,
-} from "@mui/material";
+import { Autocomplete, TextField, Typography, Grid, Button } from "@mui/material";
 import { ExpandMore, ChevronRight, HorizontalRule } from "@mui/icons-material";
 import { TreeView } from "@mui/x-tree-view/TreeView";
 import { TreeItem } from "@mui/x-tree-view/TreeItem";
@@ -48,27 +42,18 @@ export const SpecificationPicker = forwardRef((props: Props, ref) => {
             const existing =
                 fileHandle.fileSystem === undefined
                     ? undefined
-                    : Object.values(fileHandle.fileSystem!.entries).find(
-                          (entry) => entry.path.includes(rule.Id as string)
+                    : Object.values(fileHandle.fileSystem!.entries).find((entry) =>
+                          entry.path.includes(rule.Id as string)
                       );
 
             // If an existing entry was found, write the rule to the file at the existing path
-            if (existing) {
-                const success = await fileHandle.writeFile(existing.path, rule);
-                if (success instanceof Error) {
-                    snackbar(
-                        `Error occured while saving Specifcation:\n${success.message}`
-                    );
-                    return false;
-                }
-            } else {
-                const success = await fileHandle.writeFileAs(rule);
-                if (success instanceof Error) {
-                    snackbar(
-                        `Error occured while saving Specifcation:\n${success.message}`
-                    );
-                    return false;
-                }
+            const success = existing
+                ? await fileHandle.writeFile(existing.path, rule)
+                : await fileHandle.writeFileAs(rule);
+
+            if (success instanceof Error) {
+                snackbar(`Error occured while saving Specifcation:\n${success.message}`);
+                return false;
             }
 
             // If no error occurred, return true (success)
@@ -87,10 +72,7 @@ export const SpecificationPicker = forwardRef((props: Props, ref) => {
      */
     async function getFiles() {
         const [error, dir] = await fileHandle.getFiles();
-        if (error)
-            return snackbar(
-                `Error occured while fetching directory:\n${error.message}`
-            );
+        if (error) return snackbar(`Error occured while fetching directory:\n${error.message}`);
 
         setDir(dir.path);
         setFiles(
@@ -121,10 +103,7 @@ export const SpecificationPicker = forwardRef((props: Props, ref) => {
      */
     async function selectFile(path: string) {
         const [error, rule] = await fileHandle.readFile(path);
-        if (error)
-            return snackbar(
-                `Error occured while reading XML:\n${error.msg}`
-            );
+        if (error) return snackbar(`Error occured while reading XML:\n${error.msg}`);
 
         resetTolerance();
         update(rule);
@@ -167,20 +146,13 @@ export const SpecificationPicker = forwardRef((props: Props, ref) => {
                                 const label = option.label.toLowerCase();
                                 return (
                                     label.includes(inputValue) ||
-                                    label.includes(
-                                        inputValue.replace(/\./g, " ")
-                                    ) ||
-                                    inputValue
-                                        .split(".")
-                                        .join(" ")
-                                        .includes(label)
+                                    label.includes(inputValue.replace(/\./g, " ")) ||
+                                    inputValue.split(".").join(" ").includes(label)
                                 );
                             });
                         }}
                         sx={{ width: 375, marginTop: 1 }}
-                        renderInput={(params) => (
-                            <TextField {...params} label="Search for Rule" />
-                        )}
+                        renderInput={(params) => <TextField {...params} label="Search for Rule" />}
                         style={{ marginBottom: "10px" }}
                         onChange={(_, value, type) =>
                             type === "selectOption" && selectFile(value!.id)
@@ -215,12 +187,7 @@ export const SpecificationPicker = forwardRef((props: Props, ref) => {
 
     return (
         <>
-            <Grid
-                container
-                direction="column"
-                justifyContent="center"
-                alignItems="center"
-            >
+            <Grid container direction="column" justifyContent="center" alignItems="center">
                 <Grid item>
                     <Typography variant="h6">
                         Select a folder that contains specifications
