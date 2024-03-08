@@ -24,18 +24,6 @@
                 "Carried Forward"
             ]
         },
-        "WorkflowStatus": {
-            "type": "string",
-            "enum": [
-                "Work in Progress",
-                "Ready for PR",
-                "PR Failed",
-                "Ready for SC",
-                "SC Failed",
-                "Ready for Dev",
-                "On Hold"
-            ]
-        },
         "LastUpdatedBy": {
             "type": "string"
         },
