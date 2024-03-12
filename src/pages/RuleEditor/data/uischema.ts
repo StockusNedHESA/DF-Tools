@@ -65,14 +65,9 @@ export default VerticalLayout([
             options: { multi: true },
         }),
         HorizontalLayout([
-            VerticalLayout([
-                Control("Status", "Status"),
-                Control("Workflow Status", "WorkflowStatus"),
-            ]),
-            VerticalLayout([
-                Control("Last Updated By", "LastUpdatedBy"),
-                Control("Peer Reviewed By", "PeerReviewedBy"),
-            ]),
+            Control("Status", "Status"),
+            Control("Last Updated By", "LastUpdatedBy"),
+            Control("Peer Reviewed By", "PeerReviewedBy"),
         ]),
     ]),
     Group("Tolerance / Approval Limits", [
