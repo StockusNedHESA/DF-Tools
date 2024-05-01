@@ -126,7 +126,9 @@ function RuleReport() {
         }
 
         const fieldLengths = Object.keys(rules[0]).reduce((acc: number[], field: string, index) => {
-            const lengths = rules.map((rule) => (rule[field] as string).length);
+            const lengths = rules
+                .map((rule) => (rule[field] as string).length)
+                .filter(length => Number.isInteger(length));
             const averageLength = Math.ceil(
                 lengths.reduce((sum, length) => sum + length, 0) / lengths.length
             );

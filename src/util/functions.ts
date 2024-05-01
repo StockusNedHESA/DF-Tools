@@ -170,6 +170,7 @@ function createWorksheet(
         key: Mapping[index].label,
         width: length,
         font: { bold: true },
+        hidden: false,
     }));
 
     worksheet.addRows(rules);
