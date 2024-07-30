@@ -26,7 +26,7 @@
         "@mui/x-tree-view": "^6.17.0",
         "@use-gesture/react": "^10.3.0",
         "exceljs": "^4.4.0",
-        "fast-xml-parser": "^4.3.3",
+        "fast-xml-parser": "^4.4.1",
         "file-saver": "^2.0.5",
         "match-sorter": "^6.3.1",
         "react": "^18.2.0",
