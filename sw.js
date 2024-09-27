@@ -115,11 +115,11 @@ async function A(a, e) {
   let t = null;
   if (a.url && (t = new URL(a.url).origin), t !== self.location.origin)
     throw new l("cross-origin-copy-response", { origin: t });
-  const s = a.clone(), n = {
+  const s = a.clone(), r = {
     headers: new Headers(s.headers),
     status: s.status,
     statusText: s.statusText
-  }, r = e ? e(n) : n, c = W() ? s.body : await s.blob();
+  }, c = W() ? s.body : await s.blob();
   return new Response(c, r);
 }
 const S = (a) => new URL(String(a), location.href).href.replace(new RegExp(`^${location.origin}`), "");
