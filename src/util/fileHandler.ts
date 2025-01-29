@@ -30,7 +30,8 @@ class FileHandler {
     }
 
     /**
-     * Iterates through the files and directories in the specified directory handle.
+     * Iterates through the files and directories in the specified directory handle,
+     * and arranges them in alphanumeric order.
      *
      * @param {FileSystemDirectoryHandle} directoryHandle - The handle of the directory to iterate through.
      * @param {IFileSystemDirectory} dir - The directory object to store the entries.
@@ -42,24 +43,40 @@ class FileHandler {
         dir: IFileSystemDirectory = {} as IFileSystemDirectory,
         recursive: boolean = false
     ): Promise<IFileSystemDirectory> {
-        for await (const [name, handle] of directoryHandle.entries()) {
+        const entries: [string, FileSystemDirectoryHandle | FileSystemFileHandle][] = [];
+    
+        // Collect all entries
+        for await (const entry of directoryHandle.entries()) {
+            const [name, handle] = entry;
+    
+            // Ensure the handle is correctly typed
+            if (handle.kind === "file" || handle.kind === "directory") {
+                entries.push([name, handle]);
+            }
+        }
+    
+        // Sort entries using localeCompare for proper alphanumeric sorting
+        entries.sort((a, b) => a[0].localeCompare(b[0], undefined, { numeric: true }));
+    
+        // Process sorted entries
+        for (const [name, handle] of entries) {
             const path = `${dir.path}/${name}`;
-
+    
             dir.entries[path] = {
                 path,
-                handle,
+                handle, // Now correctly typed as FileSystemDirectoryHandle | FileSystemFileHandle
                 parentHandle: directoryHandle,
                 entries: {},
             };
-
+    
             if (handle.kind === "directory" && recursive) {
                 await this.iterateFiles(handle, dir.entries[path], recursive);
             }
         }
-
+    
         return dir;
     }
-
+    
     /**
      * getFiles is a method that gets files from a directory.
      * It shows a directory picker, handles permissions, and sets the file system.
