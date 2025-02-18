@@ -1,5 +1,5 @@
 try {
-  self["workbox:core:7.0.0"] && _();
+  self["workbox:core:7.2.0"] && _();
 } catch {
 }
 const N = (a, ...e) => {
@@ -46,7 +46,7 @@ function P(a, e) {
   return a.waitUntil(t), t;
 }
 try {
-  self["workbox:precaching:7.0.0"] && _();
+  self["workbox:precaching:7.2.0"] && _();
 } catch {
 }
 const O = "__WB_REVISION__";
@@ -159,7 +159,7 @@ function B(a) {
   return new Promise((e) => setTimeout(e, a));
 }
 try {
-  self["workbox:strategies:7.0.0"] && _();
+  self["workbox:strategies:7.2.0"] && _();
 } catch {
 }
 function m(a) {
@@ -259,8 +259,8 @@ class $ {
    * defined on the strategy object.
    *
    * The following plugin lifecycle methods are invoked when using this method:
-   * - cacheKeyWillByUsed()
-   * - cachedResponseWillByUsed()
+   * - cacheKeyWillBeUsed()
+   * - cachedResponseWillBeUsed()
    *
    * @param {Request|string} key The Request or URL to use as the cache key.
    * @return {Promise<Response|undefined>} A matching response, if found.
@@ -286,7 +286,7 @@ class $ {
    * the strategy object.
    *
    * The following plugin lifecycle methods are invoked when using this method:
-   * - cacheKeyWillByUsed()
+   * - cacheKeyWillBeUsed()
    * - cacheWillUpdate()
    * - cacheDidUpdate()
    *
@@ -894,7 +894,7 @@ This is generally NOT safe. Learn more at https://bit.ly/wb-precache`;
 let U;
 const L = () => (U || (U = new V()), U);
 try {
-  self["workbox:routing:7.0.0"] && _();
+  self["workbox:routing:7.2.0"] && _();
 } catch {
 }
 const v = "GET", R = (a) => a && typeof a == "object" ? a : { handle: a };
