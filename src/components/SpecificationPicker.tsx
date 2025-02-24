@@ -52,7 +52,7 @@ export const SpecificationPicker = forwardRef((props: Props, ref) => {
                 : await fileHandle.writeFileAs(rule);
 
             if (success instanceof Error) {
-                snackbar(`Error occured while saving Specifcation:\n${success.message}`);
+                snackbar(`Error occurred while saving Specification:\n${success.message}`);
                 return false;
             }
 
@@ -72,7 +72,7 @@ export const SpecificationPicker = forwardRef((props: Props, ref) => {
      */
     async function getFiles() {
         const [error, dir] = await fileHandle.getFiles();
-        if (error) return snackbar(`Error occured while fetching directory:\n${error.message}`);
+        if (error) return snackbar(`Error occurred while fetching directory:\n${error.message}`);
 
         setDir(dir.path);
         setFiles(
@@ -104,8 +104,8 @@ export const SpecificationPicker = forwardRef((props: Props, ref) => {
     async function selectFile(path: string) {
         const [error, rule] = await fileHandle.readFile(path);
         if (error) {
-            if (rule) snackbar(`Error occured while reading XML:\n${(error as IValidationError).msg}`);
-            else return snackbar(`Error occured while reading XML:\n${error.msg}`);
+            if (rule) snackbar(`Error occurred while reading XML:\n${(error as IValidationError).msg}`);
+            else return snackbar(`Error occurred while reading XML:\n${error.msg}`);
         }
 
         resetTolerance();
@@ -162,7 +162,8 @@ export const SpecificationPicker = forwardRef((props: Props, ref) => {
                         }
                     />
                 </Grid>
-                {Object.keys(files).map((group) => (
+                {Object.keys(files)
+                .map((group) => (
                     <Grid item key={group}>
                         <TreeView
                             defaultCollapseIcon={<ExpandMore />}
@@ -171,7 +172,8 @@ export const SpecificationPicker = forwardRef((props: Props, ref) => {
                             disableSelection
                         >
                             <TreeItem nodeId={group} label={group}>
-                                {files[group].map((path) => (
+                                {files[group]
+                                .map((path) => (
                                     <TreeItem
                                         nodeId={path.id}
                                         key={path.id}
