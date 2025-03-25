@@ -56,6 +56,10 @@
         "field": "AppliesToWG"
     },
     {
+        "label": "Applies To UKRI",
+        "field": "AppliesToUKRI"
+    },
+    {
         "label": "Technical Population",
         "field": "TechnicalPopulation"
     },
@@ -302,6 +306,42 @@
     {
         "label": "WG SC Percentage",
         "field": "WGSCPercentage"
+    },
+    {
+        "label": "UKRI Trigger Record Count",
+        "field": "UKRITriggerRecordCount"
+    },
+    {
+        "label": "UKRI Trigger Condition",
+        "field": "UKRITriggerCondition"
+    },
+    {
+        "label": "UKRI Trigger Percentage",
+        "field": "UKRITriggerPercentage"
+    },
+    {
+        "label": "UKRI Provider Record Count",
+        "field": "UKRIProviderRecordCount"
+    },
+    {
+        "label": "UKRI Provider Percentage",
+        "field": "UKRIProviderPercentage"
+    },
+    {
+        "label": "UKRI HESA Record Count",
+        "field": "UKRIHESARecordCount"
+    },
+    {
+        "label": "UKRI HESA Percentage",
+        "field": "UKRIHESAPercentage"
+    },
+    {
+        "label": "UKRI SC Record Count",
+        "field": "UKRISCRecordCount"
+    },
+    {
+        "label": "UKRI SC Percentage",
+        "field": "UKRISCPercentage"
     },
     {
         "label": "Reason Required",

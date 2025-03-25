@@ -72,7 +72,7 @@ export default VerticalLayout([
     ]),
     Group("Tolerance / Approval Limits", [
         Categorization(
-            ["DFENI", "HEFCW", "OFS", "SFC", "DFEEYSG", "WG"].map((name) =>
+            ["DFENI", "HEFCW", "OFS", "SFC", "DFEEYSG", "WG", "UKRI"].map((name) =>
                 Category(name, [
                     HorizontalLayout([
                         ToleranceToggle("Applies to", `AppliesTo${name}`),

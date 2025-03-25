@@ -241,6 +241,40 @@
         "WGSCPercentage": {
             "type": "string"
         },
+        "AppliesToUKRI": {
+            "type": "boolean"
+        },
+        "UKRITriggerRecordCount": {
+            "type": "string"
+        },
+        "UKRITriggerCondition": {
+            "type": "string",
+            "enum": [
+                "AND",
+                "OR"
+            ]
+        },
+        "UKRITriggerPercentage": {
+            "type": "string"
+        },
+        "UKRIProviderRecordCount": {
+            "type": "string"
+        },
+        "UKRIProviderPercentage": {
+            "type": "string"
+        },
+        "UKRIHESARecordCount": {
+            "type": "string"
+        },
+        "UKRIHESAPercentage": {
+            "type": "string"
+        },
+        "UKRISCRecordCount": {
+            "type": "string"
+        },
+        "UKRISCPercentage": {
+            "type": "string"
+        },
         "TechnicalPopulation": {
             "type": "string"
         },
