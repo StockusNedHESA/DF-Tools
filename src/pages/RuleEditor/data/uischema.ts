@@ -1,56 +1,3 @@
-const VerticalLayout = (elements: object[]) => ({
-    type: "VerticalLayout",
-    elements,
-});
-const HorizontalLayout = (elements: object[]) => ({
-    type: "HorizontalLayout",
-    elements,
-});
-const Group = (label: string, elements: object[]) => ({
-    type: "Group",
-    label,
-    elements,
-});
-const Categorization = (elements: object[]) => ({
-    type: "Categorization",
-    elements,
-});
-const Category = (label: string, elements: object[]) => ({
-    type: "Category",
-    label,
-    elements,
-});
-const Control = (label: string, scope: string, params: object = {}) => ({
-    type: "Control",
-    label,
-    scope: `#/properties/${scope}`,
-    ...params,
-});
-const Divider = () => ({ type: "Divider" });
-const Spacing = () => ({ type: "Spacing" });
-const ToleranceToggle = (label: string, scope: string) => ({
-    type: "ToleranceToggle",
-    label,
-    scope: `#/properties/${scope}`,
-});
-const ArrayTable = (label: string, scope: string) => ({
-    type: "ArrayTable",
-    label,
-    scope: `#/properties/${scope}`,
-});
-
-const depeondOnOthers = (name: string, type: string) => ({
-    rule: {
-        effect: "ENABLE",
-        condition: {
-            scope: "#",
-            schema: {
-                required: [`${name}Trigger${type}`],
-            },
-        },
-    },
-});
-
 export default VerticalLayout([
     Group("Initial Information", [
         HorizontalLayout([
@@ -127,11 +74,7 @@ export default VerticalLayout([
         ArrayTable("DM Flags", "DMFlags"),
         Divider(),
         Spacing(),
-        HorizontalLayout([
-            Control("Validity", "Validity"),
-            Control("Category", "Category"),
-            Control("Group", "Group"),
-        ]),
+        HorizontalLayout([Control("Validity", "Validity"), Control("Category", "Category"), Control("Group", "Group")]),
     ]),
     Group("Other", [
         Categorization([
@@ -157,4 +100,95 @@ export default VerticalLayout([
             ]),
         ]),
     ]),
-]);
+]) as ISchemaStandard;
+
+interface ISchemaStandard {
+    type: string;
+    label?: string;
+    elements: ISchemaStandard[];
+    options?: object;
+}
+
+function VerticalLayout<T>(elements: T[]) {
+    return {
+        type: "VerticalLayout",
+        elements,
+    };
+}
+
+function HorizontalLayout<T>(elements: T[]) {
+    return {
+        type: "HorizontalLayout",
+        elements,
+    };
+}
+
+function Group<T>(label: string, elements: T[]) {
+    return {
+        type: "Group",
+        label,
+        elements,
+    };
+}
+
+function Categorization<T>(elements: T[]) {
+    return {
+        type: "Categorization",
+        elements,
+    };
+}
+
+function Category<T>(label: string, elements: T[]) {
+    return {
+        type: "Category",
+        label,
+        elements,
+    };
+}
+
+function Control<T extends object>(label: string, scope: string, params: T = {} as T) {
+    return {
+        type: "Control",
+        label,
+        scope: `#/properties/${scope}`,
+        ...params,
+    };
+}
+
+function Divider() {
+    return { type: "Divider" };
+}
+
+function Spacing() {
+    return { type: "Spacing" };
+}
+
+function ToleranceToggle(label: string, scope: string) {
+    return {
+        type: "ToleranceToggle",
+        label,
+        scope: `#/properties/${scope}`,
+    };
+}
+
+function ArrayTable(label: string, scope: string) {
+    return {
+        type: "ArrayTable",
+        label,
+        scope: `#/properties/${scope}`,
+    };
+}
+
+function depeondOnOthers(name: string, type: string) {
+    return {
+        rule: {
+            effect: "ENABLE",
+            condition: {
+                scope: "#",
+                schema: {
+                    required: [`${name}Trigger${type}`],
+                },
+            },
+        },
+    };
+}

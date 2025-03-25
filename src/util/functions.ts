@@ -1,3 +1,5 @@
+import uischema from "../pages/RuleEditor/data/uischema";
+
 /**
  * updateTolerance is a function that updates the background color of a button based on a toggle.
  * It uses XPath to find the button and changes its background color.
@@ -28,8 +30,12 @@ function updateTolerance(type: string, toggle: boolean) {
  *
  * @param {IRule} data - The rule.
  */
+const PROVIDERS = uischema.elements
+    .find((element) => element.label === "Tolerance / Approval Limits")
+    ?.elements[0]
+    ?.elements.map((element) => element.label) as string[];
 function updateAllTolerance(data: IRule) {
-    for (const key of ["DFENI", "HEFCW", "OFS", "SFC", "DFEEYSG", "WG"]) {
+    for (const key of PROVIDERS) {
         const toggle = data[`AppliesTo${key}` as keyof IRule];
         updateTolerance(key, !!toggle);
     }

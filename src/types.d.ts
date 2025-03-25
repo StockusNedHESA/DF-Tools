@@ -7,14 +7,7 @@ declare global {
         ValidTo?: string;
         PlainEnglishDescription?: string;
         Status?: "Deleted" | "Amended" | "Added" | "Carried Forward";
-        WorkflowStatus?:
-            | "Work in Progress"
-            | "Ready for PR"
-            | "PR Failed"
-            | "Ready for SC"
-            | "SC Failed"
-            | "Ready for Dev"
-            | "On Hold";
+        WorkflowStatus?: "Work in Progress" | "Ready for PR" | "PR Failed" | "Ready for SC" | "SC Failed" | "Ready for Dev" | "On Hold";
         LastUpdatedBy?: string;
         PeerReviewedBy?: string;
         IntolerableFlag?: "Yes" | "No";
@@ -78,6 +71,16 @@ declare global {
         WGHESAPercentage?: string;
         WGSCRecordCount?: string;
         WGSCPercentage?: string;
+        AppliesToUKRI?: boolean;
+        UKRITriggerRecordCount?: string;
+        UKRITriggerCondition?: "AND" | "OR";
+        UKRITriggerPercentage?: string;
+        UKRIProviderRecordCount?: string;
+        UKRIProviderPercentage?: string;
+        UKRIHESARecordCount?: string;
+        UKRIHESAPercentage?: string;
+        UKRISCRecordCount?: string;
+        UKRISCPercentage?: string;
         TechnicalPopulation?: string;
         TechnicalValidity?: string;
         Validity?: "Valid" | "Invalid";
