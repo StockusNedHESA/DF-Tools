@@ -312,12 +312,15 @@
             "type": "string"
           },
         "RuleScope": {
-            "type": "string",
-            "enum": [
-                "Publication and Jisc onward use",
-                "Interim Milestone 1, Criteria 2",
-                "Interim Milestone 2, Criteria 2"
-            ]
+            "type": "array",
+            "items": {
+                "type":"string",
+                "enum": [
+                    "Publication and Jisc onward use",
+                    "Interim Milestone 1, Criteria 2",
+                    "Interim Milestone 2, Criteria 2"
+                ]
+            }
         },
         "FieldsToDisplay": {
             "type": "array",
