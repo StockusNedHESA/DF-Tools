@@ -146,14 +146,6 @@ function Category<T>(label: string, elements: T[]) {
     };
 }
 
-function RuleScope<T>(label: string, elements: T[]) {
-    return {
-        type: "RuleScope",
-        label,
-        elements,
-    };
-}
-
 function Control<T extends object>(label: string, scope: string, params: T = {} as T) {
     return {
         type: "Control",
