@@ -74,7 +74,7 @@ export default VerticalLayout([
         ArrayTable("DM Flags", "DMFlags"),
         Divider(),
         Spacing(),
-        HorizontalLayout([Control("Validity", "Validity"), Control("Category", "Category"), Control("Group", "Group")]),
+        HorizontalLayout([Control("Validity", "Validity"), Control("Category", "Category"), Control("Group", "Group"), Control("Rule Scope", "RuleScope")]),
     ]),
     Group("Other", [
         Categorization([
@@ -141,6 +141,14 @@ function Categorization<T>(elements: T[]) {
 function Category<T>(label: string, elements: T[]) {
     return {
         type: "Category",
+        label,
+        elements,
+    };
+}
+
+function RuleScope<T>(label: string, elements: T[]) {
+    return {
+        type: "RuleScope",
         label,
         elements,
     };
