@@ -1,4 +1,5 @@
 import uischema from "../pages/RuleEditor/data/uischema";
+import Schema from "../pages/RuleEditor/data/schema.json";
 
 /**
  * updateTolerance is a function that updates the background color of a button based on a toggle.
@@ -12,8 +13,7 @@ function updateTolerance(type: string, toggle: boolean) {
     const contextNode = document.querySelector('[role="tablist"') as Node;
     const typeResult = XPathResult.FIRST_ORDERED_NODE_TYPE;
 
-    const node = document.evaluate(expression, contextNode, null, typeResult, null)!
-        .singleNodeValue as HTMLElement;
+    const node = document.evaluate(expression, contextNode, null, typeResult, null)!.singleNodeValue as HTMLElement;
 
     if (!node?.style) return;
 
@@ -32,8 +32,7 @@ function updateTolerance(type: string, toggle: boolean) {
  */
 const PROVIDERS = uischema.elements
     .find((element) => element.label === "Tolerance / Approval Limits")
-    ?.elements[0]
-    ?.elements.map((element) => element.label) as string[];
+    ?.elements[0]?.elements.map((element) => element.label) as string[];
 function updateAllTolerance(data: IRule) {
     for (const key of PROVIDERS) {
         const toggle = data[`AppliesTo${key}` as keyof IRule];
@@ -65,20 +64,14 @@ function resetTolerance() {
  * @param {string} key - The key to check.
  * @returns {boolean} Whether the key was pressed with the modifier.
  */
-function keyCondition(
-    event: KeyboardEvent,
-    key: string,
-    nav: Navigator = undefined as unknown as Navigator
-) {
+function keyCondition(event: KeyboardEvent, key: string, nav: Navigator = undefined as unknown as Navigator) {
     return (
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-expect-error
-        (nav?.userAgentData?.platform === "Mac" ? event.metaKey : event.ctrlKey) &&
-        event.code === key
+        (nav?.userAgentData?.platform === "Mac" ? event.metaKey : event.ctrlKey) && event.code === key
     );
 }
 
-import Schema from "../pages/RuleEditor/data/schema.json";
 /**
  * sortJSON is a function that sorts a rule based on a schema.
  * It loops over the keys in the schema and sets the values in the sorted rule.
@@ -92,8 +85,7 @@ function sortJSON(data: IRule, schema: typeof Schema = Schema) {
     for (const key of Object.keys(schema.properties)) {
         const value = data[key as keyof IRule];
 
-        if (Array.isArray(value))
-            sorted[key as keyof IRule] = value.length === 1 ? value[0] : value;
+        if (Array.isArray(value)) sorted[key as keyof IRule] = value.length === 1 ? value[0] : value;
 
         if (value !== undefined) sorted[key as keyof IRule] = data[key as keyof IRule];
     }
@@ -123,6 +115,9 @@ const Parser = new XMLParser({
  * @param {string} text - The XML text to parse.
  * @returns {[Error, null] | [null, IRule]} An error or the parsed rule.
  */
+const ARRAY_PRORERTIES = Object.entries(schema.properties)
+    .filter(([, property]) => property.type === "array")
+    .map(([property]) => property);
 function parseText(text: string): [IValidationError, null] | [null, IRule] {
     const valid = XMLValidator.validate(text);
 
@@ -130,8 +125,7 @@ function parseText(text: string): [IValidationError, null] | [null, IRule] {
 
     const rule = Parser.parse(text)?.Rule?.Specification;
 
-    for (const key of ["DMFlags", "HistoryOfChange", "FieldsToDisplay"])
-        if (rule[key]) rule[key] = Array.isArray(rule[key]) ? rule[key] : [rule[key]];
+    for (const key of ARRAY_PRORERTIES) if (rule[key]) rule[key] = Array.isArray(rule[key]) ? rule[key] : [rule[key]];
 
     for (const key in rule)
         if (!validKeys.includes(key))
@@ -160,12 +154,7 @@ import Mapping from "../pages/RuleReport/data/ruleMapping.json";
  * @param fieldLengths - An array of field lengths for each column in the worksheet.
  * @param rules - An array of rules to populate the worksheet with.
  */
-function createWorksheet(
-    workbook: Workbook,
-    label: string,
-    fieldLengths: number[],
-    rules: IRule[]
-) {
+function createWorksheet(workbook: Workbook, label: string, fieldLengths: number[], rules: IRule[]) {
     const worksheet = workbook.addWorksheet(label, {
         views: [{ state: "frozen", ySplit: 1, xSplit: 1 }],
         pageSetup: { fitToPage: true },
@@ -191,13 +180,4 @@ function createWorksheet(
     });
 }
 
-export {
-    resetTolerance,
-    updateTolerance,
-    updateAllTolerance,
-    keyCondition,
-    sortJSON,
-    parseText,
-    parseDirectoryName,
-    createWorksheet,
-};
+export { resetTolerance, updateTolerance, updateAllTolerance, keyCondition, sortJSON, parseText, parseDirectoryName, createWorksheet };
